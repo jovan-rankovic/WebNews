@@ -3,5 +3,5 @@ using Application.Interfaces;
 
 namespace Application.Commands.Article
 {
-    public interface ICreateUserCommand : ICommand<ArticleDto> { }
+    public interface ICreateArticleCommand : ICommand<ArticleDto> { }
 }
