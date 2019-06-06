@@ -3,13 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.28922.388
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "Domain\Domain.csproj", "{2D690449-52D6-471A-B7EF-E3A70AA87B09}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain", "Domain\Domain.csproj", "{2D690449-52D6-471A-B7EF-E3A70AA87B09}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EfDataAccess", "EfDataAccess\EfDataAccess.csproj", "{1F37F1CD-3726-425D-AA75-F2C8DE882EDC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EfDataAccess", "EfDataAccess\EfDataAccess.csproj", "{1F37F1CD-3726-425D-AA75-F2C8DE882EDC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application", "Application\Application.csproj", "{F55192DF-6C39-40A3-A11B-AB05733D9023}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application", "Application\Application.csproj", "{F55192DF-6C39-40A3-A11B-AB05733D9023}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EfCommands", "EfCommands\EfCommands.csproj", "{8CB0EBEB-8C53-4170-BFFB-56EBC14A5A55}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EfCommands", "EfCommands\EfCommands.csproj", "{8CB0EBEB-8C53-4170-BFFB-56EBC14A5A55}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Applications", "Applications", "{78A1AFE7-D288-4DA4-B800-CCADC0F8F76B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "API", "API\API.csproj", "{0C244E36-9AE5-4FE5-B5C4-C01893CB111B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,9 +37,16 @@ Global
 		{8CB0EBEB-8C53-4170-BFFB-56EBC14A5A55}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8CB0EBEB-8C53-4170-BFFB-56EBC14A5A55}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8CB0EBEB-8C53-4170-BFFB-56EBC14A5A55}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0C244E36-9AE5-4FE5-B5C4-C01893CB111B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0C244E36-9AE5-4FE5-B5C4-C01893CB111B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0C244E36-9AE5-4FE5-B5C4-C01893CB111B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0C244E36-9AE5-4FE5-B5C4-C01893CB111B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{0C244E36-9AE5-4FE5-B5C4-C01893CB111B} = {78A1AFE7-D288-4DA4-B800-CCADC0F8F76B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C9E4705F-C8FF-4585-8260-D0954FC7368D}
