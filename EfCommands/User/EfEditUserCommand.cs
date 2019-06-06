@@ -25,6 +25,7 @@ namespace EfCommands.User
             user.FirstName = request.userDto.FirstName;
             user.LastName = request.userDto.LastName;
             user.Email = request.userDto.Email;
+            user.Password = request.userDto.Password;
 
             Context.SaveChanges();
         }
