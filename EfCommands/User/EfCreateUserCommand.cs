@@ -12,14 +12,14 @@ namespace EfCommands.User
 
         public void Execute(UserDto request)
         {
-            if (Context.Users.Any(u => u.Email == request.Email))
+            if (Context.Users.Any(u => u.Email == request.Email.Trim()))
                 throw new EntityAlreadyExistsException("Email");
 
             Context.Users.Add(new Domain.User
             {
-                FirstName = request.FirstName,
-                LastName = request.LastName,
-                Email = request.Email,
+                FirstName = request.FirstName.Trim(),
+                LastName = request.LastName.Trim(),
+                Email = request.Email.Trim(),
                 Password = request.Password
             });
 

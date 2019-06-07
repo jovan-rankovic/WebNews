@@ -17,12 +17,12 @@ namespace EfCommands.Category
             if (category == null)
                 throw new EntityNotFoundException("Category");
 
-            if (category.Name != request.categoryDto.Name)
-                if (Context.Categories.Any(c => c.Name == request.categoryDto.Name))
+            if (category.Name != request.categoryDto.Name.Trim())
+                if (Context.Categories.Any(c => c.Name == request.categoryDto.Name.Trim()))
                     throw new EntityAlreadyExistsException("Category");
 
             category.UpdatedAt = System.DateTime.Now;
-            category.Name = request.categoryDto.Name;
+            category.Name = request.categoryDto.Name.Trim();
 
             Context.SaveChanges();
         }

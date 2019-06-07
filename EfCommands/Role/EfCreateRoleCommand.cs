@@ -12,12 +12,12 @@ namespace EfCommands.Role
 
         public void Execute(RoleDto request)
         {
-            if (Context.Roles.Any(r => r.Name == request.Name))
+            if (Context.Roles.Any(r => r.Name == request.Name.Trim()))
                 throw new EntityAlreadyExistsException("Role");
 
             Context.Roles.Add(new Domain.Role
             {
-                Name = request.Name
+                Name = request.Name.Trim()
             });
 
             Context.SaveChanges();

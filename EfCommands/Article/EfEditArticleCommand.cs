@@ -17,14 +17,14 @@ namespace EfCommands.Article
             if (article == null)
                 throw new EntityNotFoundException("Article");
 
-            if (article.Title != request.articleDto.Title)
-                if (Context.Articles.Any(a => a.Title == request.articleDto.Title))
+            if (article.Title != request.articleDto.Title.Trim())
+                if (Context.Articles.Any(a => a.Title == request.articleDto.Title.Trim()))
                     throw new EntityAlreadyExistsException("Article");
 
             article.UpdatedAt = System.DateTime.Now;
-            article.Title = request.articleDto.Title;
-            article.Content = request.articleDto.Content;
-            article.ImagePath = request.articleDto.Image;
+            article.Title = request.articleDto.Title.Trim();
+            article.Content = request.articleDto.Content.Trim();
+            article.ImagePath = request.articleDto.Image.Trim();
 
             Context.SaveChanges();
         }

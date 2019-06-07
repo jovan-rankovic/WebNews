@@ -17,12 +17,12 @@ namespace EfCommands.Role
             if (role == null)
                 throw new EntityNotFoundException("Role");
 
-            if (role.Name != request.roleDto.Name)
-                if (Context.Roles.Any(r => r.Name == request.roleDto.Name))
+            if (role.Name != request.roleDto.Name.Trim())
+                if (Context.Roles.Any(r => r.Name == request.roleDto.Name.Trim()))
                     throw new EntityAlreadyExistsException("Role");
 
             role.UpdatedAt = System.DateTime.Now;
-            role.Name = request.roleDto.Name;
+            role.Name = request.roleDto.Name.Trim();
 
             Context.SaveChanges();
         }

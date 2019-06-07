@@ -12,14 +12,14 @@ namespace EfCommands.Article
 
         public void Execute(ArticleDto request)
         {
-            if (Context.Articles.Any(a => a.Title == request.Title))
+            if (Context.Articles.Any(a => a.Title == request.Title.Trim()))
                 throw new EntityAlreadyExistsException("Article");
 
             Context.Articles.Add(new Domain.Article
             {
-                Title = request.Title,
-                Content = request.Content,
-                ImagePath = request.Image,
+                Title = request.Title.Trim(),
+                Content = request.Content.Trim(),
+                ImagePath = request.Image.Trim(),
                 UserId = 1 // for testing
             });
 

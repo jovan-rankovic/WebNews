@@ -17,14 +17,14 @@ namespace EfCommands.User
             if (user == null)
                 throw new EntityNotFoundException("User");
 
-            if (user.Email != request.userDto.Email)
-                if (Context.Users.Any(u => u.Email == request.userDto.Email))
+            if (user.Email != request.userDto.Email.Trim())
+                if (Context.Users.Any(u => u.Email == request.userDto.Email.Trim()))
                     throw new EntityAlreadyExistsException("Email");
 
             user.UpdatedAt = System.DateTime.Now;
-            user.FirstName = request.userDto.FirstName;
-            user.LastName = request.userDto.LastName;
-            user.Email = request.userDto.Email;
+            user.FirstName = request.userDto.FirstName.Trim();
+            user.LastName = request.userDto.LastName.Trim();
+            user.Email = request.userDto.Email.Trim();
             user.Password = request.userDto.Password;
 
             Context.SaveChanges();

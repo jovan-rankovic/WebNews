@@ -12,12 +12,12 @@ namespace EfCommands.Category
 
         public void Execute(CategoryDto request)
         {
-            if (Context.Categories.Any(c => c.Name == request.Name))
+            if (Context.Categories.Any(c => c.Name == request.Name.Trim()))
                 throw new EntityAlreadyExistsException("Category");
 
             Context.Categories.Add(new Domain.Category
             {
-                Name = request.Name
+                Name = request.Name.Trim()
             });
 
             Context.SaveChanges();
