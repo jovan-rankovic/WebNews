@@ -16,6 +16,8 @@ namespace Application.DataTransfer
         [Required]
         [DataType(DataType.ImageUrl)]
         public string Image { get; set; }
+        [DisplayFormat(DataFormatString = "{0:dd.MM.yyyy. HH:mm}")]
+        public System.DateTime CreatedAt { get; set; }
 
         public string Author { get; set; }
         [Display(GroupName = "Categories for the article")]

@@ -37,6 +37,7 @@ namespace EfCommands.Article
                 Title = a.Title,
                 Content = a.Content,
                 Image = a.ImagePath,
+                CreatedAt = a.CreatedAt,
                 Author = a.User.FirstName + " " + a.User.LastName,
                 CategoriesForArticle = a.ArticleCategories.Select(ac => ac.Category.Name)
             });
