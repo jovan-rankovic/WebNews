@@ -57,7 +57,7 @@ namespace API.Controllers
             try
             {
                 _createUserCommand.Execute(userDto);
-                return NoContent();
+                return StatusCode(StatusCodes.Status201Created);
             }
             catch (EntityAlreadyExistsException e)
             {
@@ -80,10 +80,7 @@ namespace API.Controllers
             }
             catch (EntityNotFoundException e)
             {
-                if (e.Message == "User not found.")
-                    return NotFound(e.Message);
-
-                return UnprocessableEntity(e.Message);
+                return NotFound(e.Message);
             }
             catch (EntityAlreadyExistsException e)
             {

@@ -80,10 +80,7 @@ namespace API.Controllers
             }
             catch (EntityNotFoundException e)
             {
-                if (e.Message == "Category not found.")
-                    return NotFound(e.Message);
-
-                return UnprocessableEntity(e.Message);
+                return NotFound(e.Message);
             }
             catch (EntityAlreadyExistsException e)
             {
