@@ -1,7 +1,6 @@
 ﻿using Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System;
 
 namespace EfDataAccess.Configurations
 {
@@ -16,7 +15,10 @@ namespace EfDataAccess.Configurations
 
             builder.HasIndex(r => r.Name).IsUnique();
 
-            builder.HasMany(r => r.Users).WithOne(u => u.Role);
+            builder.HasMany(r => r.Users)
+                .WithOne(u => u.Role)
+                .HasForeignKey(u => u.RoleId)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }
