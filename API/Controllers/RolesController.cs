@@ -80,7 +80,10 @@ namespace API.Controllers
             }
             catch (EntityNotFoundException e)
             {
-                return NotFound(e.Message);
+                if (e.Message == "Role not found.")
+                    return NotFound(e.Message);
+
+                return UnprocessableEntity(e.Message);
             }
             catch (EntityAlreadyExistsException e)
             {

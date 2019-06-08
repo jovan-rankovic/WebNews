@@ -33,7 +33,7 @@ namespace API.Controllers
             => Ok(_searchUsersCommand.Execute(userSearch));
 
         // GET: api/Users/5
-        [HttpGet("{id}"]
+        [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
             try
@@ -80,7 +80,10 @@ namespace API.Controllers
             }
             catch (EntityNotFoundException e)
             {
-                return NotFound(e.Message);
+                if (e.Message == "User not found.")
+                    return NotFound(e.Message);
+
+                return UnprocessableEntity(e.Message);
             }
             catch (EntityAlreadyExistsException e)
             {
