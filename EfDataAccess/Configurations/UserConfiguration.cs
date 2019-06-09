@@ -21,6 +21,7 @@ namespace EfDataAccess.Configurations
 
             builder.HasOne(u => u.Role).WithMany(r => r.Users);
             builder.HasMany(u => u.Articles).WithOne(a => a.User);
+            builder.HasMany(u => u.Comments).WithOne(c => c.User);
         }
     }
 }

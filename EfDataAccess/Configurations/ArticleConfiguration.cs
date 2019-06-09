@@ -18,8 +18,13 @@ namespace EfDataAccess.Configurations
             builder.HasIndex(a => a.Title).IsUnique();
 
             builder.HasOne(a => a.User).WithMany(u => u.Articles);
+            builder.HasMany(a => a.Comments).WithOne(c => c.Article);
             builder.HasMany(a => a.ArticleCategories)
                 .WithOne(ac => ac.Article)
+                .HasForeignKey(ac => ac.ArticleId)
+                .OnDelete(DeleteBehavior.Cascade);
+            builder.HasMany(a => a.ArticleHashtags)
+                .WithOne(ah => ah.Article)
                 .HasForeignKey(ac => ac.ArticleId)
                 .OnDelete(DeleteBehavior.Cascade);
         }
