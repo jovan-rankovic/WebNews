@@ -3,7 +3,7 @@
     public class ArticleSearch
     {
         public string Title { get; set; }
-        public bool? ThisMonth { get; set; }
-        public bool? ByJovan { get; set; }
+        public string Hashtag { get; set; }
+        public int? CategoryId { get; set; }
     }
 }
