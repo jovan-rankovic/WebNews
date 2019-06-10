@@ -24,8 +24,15 @@ namespace Application.DataTransfer
         [DisplayFormat(DataFormatString = "{0:dd.MM.yyyy. HH:mm}")]
         public System.DateTime CreatedAt { get; set; }
 
+        public int AuthorId { get; set; }
         public string Author { get; set; }
+
+        public IEnumerable<string> Comments { get; set; }
+
         [Display(GroupName = "Categories")]
         public IEnumerable<string> CategoriesForArticle { get; set; }
+
+        [Display(GroupName = "Hashtags")]
+        public IEnumerable<string> HashtagsForArticle { get; set; }
     }
 }

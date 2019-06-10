@@ -32,7 +32,10 @@ namespace Application.DataTransfer
         [DataType(DataType.Password)]
         public string Password { get; set; }
 
+        public int? RoleId { get; set; }
+
         public string Role { get; set; }
         public IEnumerable<string> Articles { get; set; }
+        public IEnumerable<string> Comments { get; set; }
     }
 }
