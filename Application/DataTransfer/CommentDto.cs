@@ -9,6 +9,10 @@ namespace Application.DataTransfer
         [DataType(DataType.MultilineText)]
         public string Text { get; set; }
 
+        [Display(Name = "Date posted")]
+        [DisplayFormat(DataFormatString = "{0:dd.MM.yyyy. HH:mm}")]
+        public System.DateTime CreatedAt { get; set; }
+
         public int UserId { get; set; }
 
         public int ArticleId { get; set; }
