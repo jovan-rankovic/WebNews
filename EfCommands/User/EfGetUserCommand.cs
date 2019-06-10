@@ -27,8 +27,10 @@ namespace EfCommands.User
                 FirstName = user.FirstName,
                 LastName = user.LastName,
                 Email = user.Email,
+                RoleId = user.RoleId,
                 Role = user.Role.Name,
-                Articles = user.Articles.Select(a => a.Title)
+                Articles = user.Articles.Select(a => a.Title),
+                Comments = user.Comments.Select(c => c.Text)
             };
         }
     }

@@ -22,14 +22,11 @@ namespace EfCommands.Article
             if (request.Title != null)
                 query = query.Where(a => a.Title.ToLower().Contains(request.Title.ToLower()));
 
-            if (request.ThisMonth == true)
-                query = query.Where(a => a.CreatedAt.Month == System.DateTime.Now.Month);
+            if (request.Hashtag != null)
+                query = query.Where(a => a.ArticleHashtags.Any(ah => ah.Hashtag.Tag == request.Hashtag));
 
-            if (request.ByJovan == true)
-                query = query.Where(a => a.User.FirstName == "Jovan" && a.User.LastName == "Rankovic");
-
-            if (request.ByJovan == false)
-                query = query.Where(a => a.User.FirstName != "Jovan" && a.User.LastName != "Rankovic");
+            if (request.CategoryId.HasValue)
+                query = query.Where(a => a.ArticleCategories.Any(ac => ac.CategoryId == request.CategoryId));
 
             return query.Select(a => new ArticleDto
             {
@@ -38,8 +35,11 @@ namespace EfCommands.Article
                 Content = a.Content,
                 Image = a.ImagePath,
                 CreatedAt = a.CreatedAt,
+                AuthorId = a.UserId,
                 Author = a.User.FirstName + " " + a.User.LastName,
-                CategoriesForArticle = a.ArticleCategories.Select(ac => ac.Category.Name)
+                Comments = a.Comments.Select(c => c.Text),
+                CategoriesForArticle = a.ArticleCategories.Select(ac => ac.Category.Name),
+                HashtagsForArticle = a.ArticleHashtags.Select(ah => ah.Hashtag.Tag)
             });
         }
     }

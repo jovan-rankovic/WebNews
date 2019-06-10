@@ -29,8 +29,11 @@ namespace EfCommands.Article
                 Content = article.Content,
                 Image = article.ImagePath,
                 CreatedAt = article.CreatedAt,
+                AuthorId = article.UserId,
                 Author = article.User.FirstName + " " + article.User.LastName,
-                CategoriesForArticle = article.ArticleCategories.Select(ac => ac.Category.Name)
+                Comments = article.Comments.Select(c => c.Text),
+                CategoriesForArticle = article.ArticleCategories.Select(ac => ac.Category.Name),
+                HashtagsForArticle = article.ArticleHashtags.Select(ah => ah.Hashtag.Tag)
             };
         }
     }
