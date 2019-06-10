@@ -20,7 +20,7 @@ namespace Application.DataTransfer
         [FileExtensions(ErrorMessage = "Invalid extension. (allowed: jpg, jpeg, png)", Extensions = "jpg,jpeg,png")]
         public string Image { get; set; }
 
-        [Display(Name = "Posted on")]
+        [Display(Name = "Date posted")]
         [DisplayFormat(DataFormatString = "{0:dd.MM.yyyy. HH:mm}")]
         public System.DateTime CreatedAt { get; set; }
 
