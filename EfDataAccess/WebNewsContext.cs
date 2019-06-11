@@ -12,6 +12,8 @@ namespace EfDataAccess
         public DbSet<Category> Categories { get; set; }
         public DbSet<Hashtag> Hashtags { get; set; }
         public DbSet<Comment> Comments { get; set; }
+        public DbSet<ArticleCategory> ArticleCategory { get; set; }
+        public DbSet<ArticleHashtag> ArticleHashtag { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
