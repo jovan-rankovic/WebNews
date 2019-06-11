@@ -2,7 +2,6 @@
 using Application.DataTransfer;
 using Application.Searches;
 using EfDataAccess;
-using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -14,10 +13,7 @@ namespace EfCommands.Hashtag
 
         public IEnumerable<HashtagDto> Execute(HashtagSearch request)
         {
-            var query = Context.Hashtags
-                .Include(h => h.HashtagArticles)
-                .ThenInclude(ah => ah.Article)
-                .AsQueryable();
+            var query = Context.Hashtags.AsQueryable();
 
             if (request.Tag != null)
                 query = query.Where(h => h.Tag.ToLower().Contains(request.Tag.ToLower()));

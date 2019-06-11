@@ -2,7 +2,6 @@
 using Application.DataTransfer;
 using Application.Searches;
 using EfDataAccess;
-using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -14,10 +13,7 @@ namespace EfCommands.Comment
 
         public IEnumerable<CommentDto> Execute(CommentSearch request)
         {
-            var query = Context.Comments
-                .Include(c => c.Article)
-                .Include(c => c.User)
-                .AsQueryable();
+            var query = Context.Comments.AsQueryable();
 
             if (request.Text != null)
                 query = query.Where(c => c.Text.ToLower().Contains(request.Text.ToLower()));

@@ -2,7 +2,6 @@
 using Application.DataTransfer;
 using Application.Searches;
 using EfDataAccess;
-using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -14,10 +13,7 @@ namespace EfCommands.User
 
         public IEnumerable<UserDto> Execute(UserSearch request)
         {
-            var query = Context.Users
-                .Include(u => u.Role)
-                .Include(u => u.Articles)
-                .AsQueryable();
+            var query = Context.Users.AsQueryable();
 
             if (request.FirstName != null)
                 query = query.Where(u => u.FirstName.ToLower().Contains(request.FirstName.ToLower()));

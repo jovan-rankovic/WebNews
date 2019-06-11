@@ -2,7 +2,6 @@
 using Application.DataTransfer;
 using Application.Searches;
 using EfDataAccess;
-using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -14,10 +13,7 @@ namespace EfCommands.Category
 
         public IEnumerable<CategoryDto> Execute(CategorySearch request)
         {
-            var query = Context.Categories
-                .Include(c => c.CategoryArticles)
-                .ThenInclude(ac => ac.Article)
-                .AsQueryable();
+            var query = Context.Categories.AsQueryable();
 
             if (request.Name != null)
                 query = query.Where(c => c.Name.ToLower().Contains(request.Name.ToLower()));

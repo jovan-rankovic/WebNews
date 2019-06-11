@@ -16,6 +16,7 @@ namespace EfCommands.User
             var user = Context.Users
                 .Include(u => u.Role)
                 .Include(u => u.Articles)
+                .Include(u => u.Comments)
                 .First(u => u.Id == request);
 
             if (user == null)

@@ -15,8 +15,11 @@ namespace EfCommands.Article
         {
             var article = Context.Articles
                 .Include(a => a.User)
+                .Include(a => a.Comments)
                 .Include(a => a.ArticleCategories)
                 .ThenInclude(ac => ac.Category)
+                .Include(a => a.ArticleHashtags)
+                .ThenInclude(ah => ah.Hashtag)
                 .First(a => a.Id == request);
 
             if (article == null)
