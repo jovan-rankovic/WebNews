@@ -10,10 +10,11 @@ namespace EfDataAccess.Configurations
         {
             builder.Property(a => a.CreatedAt).HasDefaultValueSql("GETDATE()");
             builder.Property(a => a.UpdatedAt).HasDefaultValueSql("GETDATE()");
+            builder.Property(a => a.ImagePath).HasDefaultValue("img/article/default.jpg");
 
             builder.Property(a => a.Title).HasMaxLength(50).IsRequired();
             builder.Property(a => a.Content).HasColumnType("text").IsRequired();
-            builder.Property(a => a.ImagePath).HasMaxLength(255).IsRequired();
+            builder.Property(a => a.ImagePath).HasMaxLength(255);
 
             builder.HasIndex(a => a.Title).IsUnique();
 
