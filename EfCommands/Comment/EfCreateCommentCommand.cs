@@ -12,9 +12,9 @@ namespace EfCommands.Comment
         {
             Context.Comments.Add(new Domain.Comment
             {
-                Text = request.Text,
-                ArticleId = 1, // testing
-                UserId = 1 // testing
+                Text = request.Text.Trim(),
+                ArticleId = request.ArticleId,
+                UserId = request.UserId
             });
 
             Context.SaveChanges();

@@ -20,8 +20,26 @@ namespace EfCommands.Article
                 Title = request.Title.Trim(),
                 Content = request.Content.Trim(),
                 ImagePath = request.Image.Trim(),
-                UserId = 1 // for testing
+                UserId = request.AuthorId
             });
+
+            foreach (var categoryId in request.CategoryIds)
+            {
+                Context.ArticleCategory.Add(new Domain.ArticleCategory
+                {
+                    ArticleId = request.Id,
+                    CategoryId = categoryId
+                });
+            }
+
+            foreach (var hashtagId in request.HashtagIds)
+            {
+                Context.ArticleHashtag.Add(new Domain.ArticleHashtag
+                {
+                    ArticleId = request.Id,
+                    HashtagId = hashtagId
+                });
+            }
 
             Context.SaveChanges();
         }

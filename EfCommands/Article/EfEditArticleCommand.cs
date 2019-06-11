@@ -25,6 +25,25 @@ namespace EfCommands.Article
             article.Title = request.articleDto.Title.Trim();
             article.Content = request.articleDto.Content.Trim();
             article.ImagePath = request.articleDto.Image.Trim();
+            article.UserId = request.articleDto.AuthorId;
+
+            foreach (var categoryId in request.articleDto.CategoryIds)
+            {
+                Context.ArticleCategory.Add(new Domain.ArticleCategory
+                {
+                    ArticleId = request.id,
+                    CategoryId = categoryId
+                });
+            }
+
+            foreach (var hashtagId in request.articleDto.HashtagIds)
+            {
+                Context.ArticleHashtag.Add(new Domain.ArticleHashtag
+                {
+                    ArticleId = request.id,
+                    HashtagId = hashtagId
+                });
+            }
 
             Context.SaveChanges();
         }

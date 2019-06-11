@@ -26,6 +26,7 @@ namespace EfCommands.User
             user.LastName = request.userDto.LastName.Trim();
             user.Email = request.userDto.Email.Trim();
             user.Password = request.userDto.Password;
+            user.RoleId = request.userDto.RoleId;
 
             Context.SaveChanges();
         }

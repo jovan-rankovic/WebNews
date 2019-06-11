@@ -20,7 +20,8 @@ namespace EfCommands.User
                 FirstName = request.FirstName.Trim(),
                 LastName = request.LastName.Trim(),
                 Email = request.Email.Trim(),
-                Password = request.Password
+                Password = request.Password,
+                RoleId = request.RoleId
             });
 
             Context.SaveChanges();

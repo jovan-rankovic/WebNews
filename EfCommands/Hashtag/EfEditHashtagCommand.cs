@@ -22,7 +22,7 @@ namespace EfCommands.Hashtag
                     throw new EntityAlreadyExistsException("Hashtag");
 
             hashtag.UpdatedAt = System.DateTime.Now;
-            hashtag.Tag = request.hashtagDto.Tag;
+            hashtag.Tag = request.hashtagDto.Tag.Trim();
 
             Context.SaveChanges();
         }

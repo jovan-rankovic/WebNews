@@ -17,7 +17,9 @@ namespace EfCommands.Comment
                 throw new EntityNotFoundException("Comment");
 
             comment.UpdatedAt = System.DateTime.Now;
-            comment.Text = request.commentDto.Text;
+            comment.Text = request.commentDto.Text.Trim();
+            comment.UserId = request.commentDto.UserId;
+            comment.ArticleId = request.commentDto.ArticleId;
 
             Context.SaveChanges();
         }

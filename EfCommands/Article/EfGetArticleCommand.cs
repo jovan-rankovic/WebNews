@@ -34,6 +34,8 @@ namespace EfCommands.Article
                 CreatedAt = article.CreatedAt,
                 UpdatedAt = article.UpdatedAt,
                 AuthorId = article.UserId,
+                CategoryIds = article.ArticleCategories.Select(ac => ac.CategoryId),
+                HashtagIds = article.ArticleHashtags.Select(ah => ah.HashtagId),
                 Author = article.User.FirstName + " " + article.User.LastName,
                 Comments = article.Comments.Select(c => c.Text),
                 CategoriesForArticle = article.ArticleCategories.Select(ac => ac.Category.Name),
