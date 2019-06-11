@@ -17,8 +17,10 @@ namespace Application.DataTransfer
         [DisplayFormat(DataFormatString = "{0:dd.MM.yyyy. HH:mm}")]
         public System.DateTime UpdatedAt { get; set; }
 
+        [Required]
         public int UserId { get; set; }
 
+        [Required]
         public int ArticleId { get; set; }
 
         public string User { get; set; }

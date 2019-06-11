@@ -15,7 +15,6 @@ namespace Application.DataTransfer
         [DataType(DataType.MultilineText)]
         public string Content { get; set; }
 
-        [Required]
         [FileExtensions(ErrorMessage = "Invalid extension. (allowed: jpg, jpeg, png)", Extensions = "jpg,jpeg,png")]
         public string Image { get; set; }
 
@@ -27,7 +26,15 @@ namespace Application.DataTransfer
         [DisplayFormat(DataFormatString = "{0:dd.MM.yyyy. HH:mm}")]
         public System.DateTime UpdatedAt { get; set; }
 
+        [Required]
         public int AuthorId { get; set; }
+
+        [Required]
+        public IEnumerable<int> CategoryId { get; set; }
+
+        [Required]
+        public IEnumerable<int> HashtagId { get; set; }
+
         public string Author { get; set; }
 
         public IEnumerable<string> Comments { get; set; }
