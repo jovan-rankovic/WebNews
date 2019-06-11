@@ -39,14 +39,14 @@
                 <p>Categories:</p>
                 @foreach (var category in ViewBag.Categories)
                 {
-                    <label><input type="checkbox" name="CategoryId[]" value="@category.Id" /> @category.Name</label>
+                    <label><input type="checkbox" name="CategoryIds[]" value="@category.Id" /> @category.Name</label>
                 }
             </div>
             <div class="form-group">
                 <p>Hashtags:</p>
                 @foreach (var hashtag in ViewBag.Hashtags)
                 {
-                    <label><input type="checkbox" name="HashtagId[]" value="@hashtag.Id" /> @hashtag.Tag</label>
+                    <label><input type="checkbox" name="HashtagIds[]" value="@hashtag.Id" /> @hashtag.Tag</label>
                 }
             </div>
             <div class="form-group">
