@@ -2,8 +2,10 @@
 using Application.DataTransfer;
 using Application.Exceptions;
 using Application.Searches;
+using EfDataAccess;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Linq;
 
 namespace Web.Controllers
 {
@@ -14,14 +16,16 @@ namespace Web.Controllers
         private readonly ICreateCommentCommand _createCommentCommand;
         private readonly IEditCommentCommand _editCommentCommand;
         private readonly IDeleteCommentCommand _deleteCommentCommand;
+        private readonly WebNewsContext _context;
 
-        public CommentsController(IGetCommentsCommand searchCommentsCommand, IGetCommentCommand getOneCommentCommand, ICreateCommentCommand createCommentCommand, IEditCommentCommand editCommentCommand, IDeleteCommentCommand deleteCommentCommand)
+        public CommentsController(IGetCommentsCommand searchCommentsCommand, IGetCommentCommand getOneCommentCommand, ICreateCommentCommand createCommentCommand, IEditCommentCommand editCommentCommand, IDeleteCommentCommand deleteCommentCommand, WebNewsContext context)
         {
             _searchCommentsCommand = searchCommentsCommand;
             _getOneCommentCommand = getOneCommentCommand;
             _createCommentCommand = createCommentCommand;
             _editCommentCommand = editCommentCommand;
             _deleteCommentCommand = deleteCommentCommand;
+            _context = context;
         }
 
         // GET: Comments
@@ -50,6 +54,21 @@ namespace Web.Controllers
         // GET: Comments/Create
         public ActionResult Create()
         {
+            ViewBag.Users = _context.Users
+                .Select(u => new UserDto
+                {
+                    Id = u.Id,
+                    FirstName = u.FirstName,
+                    LastName = u.LastName
+                });
+
+            ViewBag.Articles = _context.Articles
+                .Select(a => new ArticleDto
+                {
+                    Id = a.Id,
+                    Title = a.Title
+                });
+
             return View();
         }
 
@@ -65,19 +84,33 @@ namespace Web.Controllers
             {
                 _createCommentCommand.Execute(commentDto);
                 TempData["success"] = "Comment posted.";
-                return RedirectToAction(nameof(Index));
             }
             catch (Exception e)
             {
                 TempData["error"] = e.Message;
             }
 
-            return View();
+            return Redirect("/articles/details/" + commentDto.ArticleId);
         }
 
         // GET: Comments/Edit/5
         public ActionResult Edit(int id)
         {
+            ViewBag.Users = _context.Users
+            .Select(u => new UserDto
+            {
+                Id = u.Id,
+                FirstName = u.FirstName,
+                LastName = u.LastName
+            });
+
+            ViewBag.Articles = _context.Articles
+                .Select(a => new ArticleDto
+                {
+                    Id = a.Id,
+                    Title = a.Title
+                });
+
             try
             {
                 return View(_getOneCommentCommand.Execute(id));

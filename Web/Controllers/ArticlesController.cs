@@ -2,8 +2,10 @@
 using Application.DataTransfer;
 using Application.Exceptions;
 using Application.Searches;
+using EfDataAccess;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Linq;
 
 namespace Web.Controllers
 {
@@ -14,14 +16,16 @@ namespace Web.Controllers
         private readonly ICreateArticleCommand _createArticleCommand;
         private readonly IEditArticleCommand _editArticleCommand;
         private readonly IDeleteArticleCommand _deleteArticleCommand;
+        private readonly WebNewsContext _context;
 
-        public ArticlesController(IGetArticlesCommand searchArticlesCommand, IGetArticleCommand getOneArticleCommand, ICreateArticleCommand createArticleCommand, IEditArticleCommand editArticleCommand, IDeleteArticleCommand deleteArticleCommand)
+        public ArticlesController(IGetArticlesCommand searchArticlesCommand, IGetArticleCommand getOneArticleCommand, ICreateArticleCommand createArticleCommand, IEditArticleCommand editArticleCommand, IDeleteArticleCommand deleteArticleCommand, WebNewsContext context)
         {
             _searchArticlesCommand = searchArticlesCommand;
             _getOneArticleCommand = getOneArticleCommand;
             _createArticleCommand = createArticleCommand;
             _editArticleCommand = editArticleCommand;
             _deleteArticleCommand = deleteArticleCommand;
+            _context = context;
         }
 
         // GET: Articles
@@ -31,6 +35,18 @@ namespace Web.Controllers
         // GET: Articles/Details/5
         public ActionResult Details(int id)
         {
+            ViewBag.Comments = _context.Comments
+                .Where(c => c.ArticleId == id)
+                .OrderByDescending(c => c.UpdatedAt)
+                .Select(c => new CommentDto
+                {
+                    Id = c.Id,
+                    Text = c.Text,
+                    User = c.User.FirstName + " " + c.User.LastName,
+                    CreatedAt = c.CreatedAt,
+                    UpdatedAt = c.UpdatedAt
+                });
+
             try
             {
                 return View(_getOneArticleCommand.Execute(id));
@@ -50,6 +66,28 @@ namespace Web.Controllers
         // GET: Articles/Create
         public ActionResult Create()
         {
+            ViewBag.Categories = _context.Categories
+                .Select(c => new CategoryDto
+                {
+                    Id = c.Id,
+                    Name = c.Name
+                });
+
+            ViewBag.Hashtags = _context.Hashtags
+                .Select(h => new HashtagDto
+                {
+                    Id = h.Id,
+                    Tag = h.Tag
+                });
+
+            ViewBag.Users = _context.Users
+                .Select(u => new UserDto
+                {
+                    Id = u.Id,
+                    FirstName = u.FirstName,
+                    LastName = u.LastName
+                });
+
             return View();
         }
 
@@ -82,6 +120,28 @@ namespace Web.Controllers
         // GET: Articles/Edit/5
         public ActionResult Edit(int id)
         {
+            ViewBag.Categories = _context.Categories
+                .Select(c => new CategoryDto
+                {
+                    Id = c.Id,
+                    Name = c.Name
+                });
+
+            ViewBag.Hashtags = _context.Hashtags
+                .Select(h => new HashtagDto
+                {
+                    Id = h.Id,
+                    Tag = h.Tag
+                });
+
+            ViewBag.Users = _context.Users
+                .Select(u => new UserDto
+                {
+                    Id = u.Id,
+                    FirstName = u.FirstName,
+                    LastName = u.LastName
+                });
+
             try
             {
                 return View(_getOneArticleCommand.Execute(id));

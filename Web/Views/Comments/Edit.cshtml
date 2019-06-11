@@ -1,0 +1,55 @@
+﻿@model Application.DataTransfer.CommentDto
+
+@{
+    ViewData["Title"] = "Edit a comment";
+}
+
+<h1>Edit a comment</h1>
+
+@if (TempData["error"] != null)
+{
+    <p class="alert alert-danger">@TempData["error"]</p>
+}
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Text" class="control-label"></label>
+                <textarea asp-for="Text" class="form-control"></textarea>
+                <span asp-validation-for="Text" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <p>User:</p>
+                <select name="UserId">
+                    @foreach (var user in ViewBag.Users)
+                    {
+                        <option value="@user.Id">@user.FirstName @user.LastName</option>
+                    }
+                </select>
+            </div>
+            <div class="form-group">
+                <p>Article:</p>
+                <select name="ArticleId">
+                    @foreach (var article in ViewBag.Articles)
+                    {
+                        <option value="@article.Id">@article.Title</option>
+                    }
+                </select>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

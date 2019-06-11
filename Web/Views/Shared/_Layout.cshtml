@@ -1,0 +1,192 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>WebNews - @ViewData["Title"]</title>
+
+    <environment include="Development">
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+    </environment>
+    <environment exclude="Development">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+              asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
+              asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute"
+              crossorigin="anonymous"
+              integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" />
+    </environment>
+    <link rel="stylesheet" href="~/css/site.css" />
+
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,600,700,900&amp;subset=latin-ext" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <!-- Tooltip plugin (zebra) css file -->
+    <link rel="stylesheet" type="text/css" href="~/lib/zebra-tooltip/zebra_tooltips.min.css">
+
+    <!-- Ideabox main theme css file. you have to add all pages -->
+    <link rel="stylesheet" type="text/css" href="~/css/main-style.css">
+
+    <!-- Ideabox responsive css file -->
+    <link rel="stylesheet" type="text/css" href="~/css/responsive-style.css">
+
+    <link rel="shortcut icon" href="~/img/favicon/wn.jpg" />
+</head>
+<body>
+    <!-- header start -->
+    <header class="header">
+        <div class="header-wrapper">
+
+            <!--sidebar menu toggler start -->
+            <div class="toggle-sidebar material-button">
+                <i class="material-icons">&#xE5D2;</i>
+            </div>
+            <!--sidebar menu toggler end -->
+            <!--logo start -->
+            <div class="logo-box">
+                <h1 id="WebNews">
+                    <a href="/" class="logo">WebNews</a>
+                </h1>
+            </div>
+            <!--logo end -->
+
+            <div class="header-menu">
+
+                <!-- header left menu start -->
+                <ul class="header-navigation" data-show-menu-on-mobile>
+                    <li>
+                        <a href="#" class="material-button submenu-toggle">ENTITIES <i class="material-icons">&#xE313;</i></a>
+                        <div class="header-submenu">
+                            <ul>
+                                <li><a href="/articles">Articles</a></li>
+                                <li><a href="/categories">Categories</a></li>
+                                <li><a href="/comments">Comments</a></li>
+                                <li><a href="/hashtags">Hashtags</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+                <!-- header left menu end -->
+
+            </div>
+            <div class="header-right with-seperator">
+
+                <!-- header right menu start -->
+                <ul class="header-navigation">
+                    <li>
+                        <a href="#" class="material-button search-toggle"><i class="material-icons">&#xE8B6;</i></a>
+                    </li>
+                </ul>
+                <!-- header right menu end -->
+
+            </div>
+
+            <!--header search panel start -->
+            <div class="search-bar">
+                <form class="search-form">
+                    <div class="search-input-wrapper">
+                        <input type="text" name="title" placeholder="search articles by title..." class="search-input">
+                        <button type="submit" class="search-submit"><i class="material-icons">&#xE5C8;</i></button>
+                    </div>
+                    <span class="search-close search-toggle">
+                        <i class="material-icons">&#xE5CD;</i>
+                    </span>
+                </form>
+            </div>
+            <!--header search panel end -->
+
+        </div>
+    </header>
+    <!-- header end -->
+    <!-- Left sidebar menu start -->
+    <div class="sidebar">
+        <div class="sidebar-wrapper">
+
+            <!-- side menu logo start -->
+            <div class="sidebar-logo">
+                <a href="#"></a>
+                <div class="sidebar-toggle-button">
+                    <i class="material-icons">&#xE317;</i>
+                </div>
+            </div>
+            <!-- side menu logo end -->
+            <!-- sidebar menu start -->
+            <ul class="sidebar-menu">
+                <li>
+                    <a href="/" class="material-button">
+                        <span class="menu-icon"><i class="material-icons">&#xE88A;</i></span>
+                        <span class="menu-label">Home</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="material-button">
+                        <span class="menu-icon"><i class="material-icons">&#xE8B0;</i></span>
+                        <span class="menu-label">Entities</span>
+                        <span class="multimenu-icon"><i class="material-icons">&#xE313;</i></span>
+                    </a>
+                    <ul>
+                        <li>
+                            <a href="/articles"><span class="menu-label">Articles</span></a>
+                        </li>
+                        <li>
+                            <a href="/categories"><span class="menu-label">Categories</span></a>
+                        </li>
+                        <li>
+                            <a href="/comments"><span class="menu-label">Comments</span></a>
+                        </li>
+                        <li>
+                            <a href="/hashtags"><span class="menu-label">Hashtags</span></a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+            <!-- sidebar menu end -->
+
+            <div class="sidebar-seperate"></div>
+
+            <!-- sidebar menu start -->
+            <ul class="sidebar-menu">
+                <li>
+                    <a href="https://github.com/jovan-rankovic" class="google-plus material-button">
+                        <span class="menu-label">GitHub</span>
+                    </a>
+                </li>
+            </ul>
+            <!-- sidebar menu end -->
+        </div>
+    </div>
+    <!-- Left sidebar menu end -->
+
+    <main class="main-container">
+        <section class="main-content">
+            <div class="main-content-wrapper">
+                @RenderBody()
+            </div>
+        </section>
+    </main>
+
+    <div class="overlay"></div>
+
+    <environment include="Development">
+        <script src="~/lib/jquery/dist/jquery.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.js"></script>
+        <script src="~/lib/zebra-tooltip/zebra_tooltips.min.js"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"
+                asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
+                asp-fallback-test="window.jQuery"
+                crossorigin="anonymous"
+                integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=">
+        </script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"
+                asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"
+                asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"
+                crossorigin="anonymous"
+                integrity="sha384-xrRywqdh3PHs8keKZN+8zzc5TX0GRTLCcmivcbNJWm2rs5C8PRhcEn3czEjhAO9o">
+        </script>
+    </environment>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

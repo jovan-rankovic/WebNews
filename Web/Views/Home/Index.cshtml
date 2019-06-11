@@ -1,0 +1,89 @@
+﻿@model Web.Models.HomeViewModel
+
+@{
+    ViewData["Title"] = "Home";
+}
+
+<div class="content-body">
+    <div class="content-timeline">
+        <!--Timeline header area start -->
+        <div class="post-list-header">
+            <span class="post-list-title">Latest articles</span>
+        </div>
+        <!--Timeline header area end -->
+        <!--Timeline items start -->
+        <div class="timeline-items">
+
+            @foreach (var article in Model.Articles.OrderByDescending(a => a.CreatedAt))
+            {
+                <div class="timeline-item">
+                    <div class="timeline-left">
+                        <div class="timeline-left-wrapper">
+                            <a class="timeline-category watch"><i class="material-icons watch">watch_later</i></a>
+                            <span class="timeline-date">@article.CreatedAt</span>
+                        </div>
+                    </div>
+                    <div class="timeline-right">
+                        <div class="timeline-post-image">
+                            <a href="/articles/details/@article.Id">
+                                <img src="~/@article.Image" width="260">
+                            </a>
+                        </div>
+                        <div class="timeline-post-content">
+
+                            @foreach (var articleCategories in article.CategoriesForArticle)
+                            {
+                                <a class="timeline-category-name">@articleCategories</a>
+                            }
+
+                            <a href="/articles/details/@article.Id">
+                                <h3 class="timeline-post-title">@article.Title</h3>
+                            </a>
+                            <div class="timeline-post-info">
+                                <a class="author">@article.Author</a>
+                                <span class="dot"></span>
+                                <span class="comment">@article.Comments.Count() comments</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+
+        </div>
+        <!--Timeline items end -->
+
+    </div>
+
+</div>
+
+<div class="content-sidebar">
+    <div class="sidebar_inner">
+
+        <div class="widget-item">
+            <div class="w-header">
+                <div class="w-title">Categories</div>
+            </div>
+            <div class="w-boxed-post">
+                <ul>
+
+                    @foreach (var category in Model.Categories)
+                    {
+                        <li>
+                            <a href="?categoryId=@category.Id">
+                                <div class="box-wrapper">
+                                    <div class="box-left">
+                                    </div>
+                                    <div class="box-right">
+                                        <h3 class="p-title">@category.Name</h3>
+                                        <div class="p-icons">
+                                            @category.ArticlesInCategory.Count() articles
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                    }
+
+                </ul>
+            </div>
+        </div>

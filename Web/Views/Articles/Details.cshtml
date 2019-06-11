@@ -1,0 +1,135 @@
+﻿@model Application.DataTransfer.ArticleDto
+
+@{
+    ViewData["Title"] = "Article details";
+}
+
+@if (TempData["success"] != null)
+{
+    <p class="alert alert-success">@TempData["success"]</p>
+}
+
+@if (TempData["error"] != null)
+{
+    <p class="alert alert-danger">@TempData["error"]</p>
+}
+
+<!-- Page Content -->
+<div class="container">
+
+    <div class="row">
+
+        <!-- Post Content Column -->
+        <div class="col-lg-8">
+
+            <!-- Title -->
+            <h1 class="mt-4">@Model.Title</h1>
+
+            <!-- Author -->
+            <p class="lead">
+                by
+                @Model.Author
+            </p>
+
+            <hr>
+
+            <!-- Date/Time -->
+            <p>Posted on @Html.DisplayFor(model => model.CreatedAt)</p>
+
+            <hr>
+
+            <!-- Preview Image -->
+            <img class="img-fluid rounded" src="~/@Model.Image" alt="Article image">
+
+            <hr>
+
+            <!-- Post Content -->
+            <p>@Model.Content</p>
+
+            <hr>
+
+            <!-- Comments Form -->
+            <div class="card my-4">
+                <h5 class="card-header">Leave a Comment:</h5>
+                <div class="card-body">
+                    <form asp-controller="Comments" asp-action="Create" method="post" asp-antiforgery="true">
+                        <div class="form-group">
+                            <input type="hidden" id="UserId" name="UserId" value="1" />
+                            <input type="hidden" id="ArticleId" name="ArticleId" value="@Model.Id" />
+                            <textarea id="Text" name="Text" class="form-control" rows="3"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Comments -->
+            <p class="lead">@Model.Comments.Count() comments</p>
+
+            @foreach (var comment in ViewBag.Comments)
+            {
+                <div class="media mb-4">
+                    <div class="media-body">
+                        <a href="/comments/delete/@comment.Id" class="float-right text-danger article-links">Delete</a>
+                        <a href="/comments/edit/@comment.Id" class="float-right article-links">Edit</a>
+                        <h5 class="mt-0">@comment.User</h5>
+                        <p class="small">
+                            @comment.UpdatedAt
+                        @if (comment.UpdatedAt != comment.CreatedAt)
+                        {
+                            <i>(edited)</i>
+                        }
+                    </p>
+                    <p>@comment.Text</p>
+                </div>
+            </div>
+        }
+
+        </div>
+
+        <!-- Sidebar Widgets Column -->
+        <div class="col-md-4">
+
+            <div class="card my-4">
+                <h5 class="card-header">Actions</h5>
+                <div class="card-body">
+                    <ul class="list-unstyled mb-0">
+                        <li>
+                            <a asp-action="Create">Create new article</a>
+                        </li>
+                        <li>
+                            <a href="/articles/edit/@Model.Id">Edit this article</a>
+                        </li>
+                        <li>
+                            <a href="/articles/delete/@Model.Id">Delete this article</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Categories Widget -->
+            <div class="card my-4">
+                <h5 class="card-header">Tags</h5>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <ul class="list-unstyled mb-0">
+
+                                @foreach (var hashtag in Model.HashtagsForArticle)
+                                {
+                                    <li><a href="/?hashtag=@hashtag.Remove(0, 1)">@hashtag</a></li>
+                                }
+
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    <!-- /.row -->
+
+</div>
+<!-- /.container -->
