@@ -59,7 +59,7 @@ namespace Web.Controllers
         public ActionResult Create(ArticleDto articleDto)
         {
             if (!ModelState.IsValid)
-                return View(articleDto);
+                TempData["error"] = "An error occured.";
 
             try
             {
@@ -104,7 +104,7 @@ namespace Web.Controllers
         public ActionResult Edit(int id, ArticleDto articleDto)
         {
             if (!ModelState.IsValid)
-                return View(articleDto);
+                TempData["error"] = "An error occured.";
 
             try
             {
@@ -125,7 +125,7 @@ namespace Web.Controllers
                 TempData["error"] = e.Message;
             }
 
-            return View(articleDto);
+            return View();
         }
 
         // GET: Articles/Delete/5

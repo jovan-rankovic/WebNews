@@ -59,12 +59,12 @@ namespace Web.Controllers
         public ActionResult Create(CategoryDto categoryDto)
         {
             if (!ModelState.IsValid)
-                return View(categoryDto);
+                TempData["error"] = "An error occured.";
 
             try
             {
                 _createCategoryCommand.Execute(categoryDto);
-                TempData["success"] = "Category added.";
+                TempData["success"] = "Category created.";
                 return RedirectToAction(nameof(Index));
             }
             catch (EntityAlreadyExistsException e)
@@ -104,7 +104,7 @@ namespace Web.Controllers
         public ActionResult Edit(int id, CategoryDto categoryDto)
         {
             if (!ModelState.IsValid)
-                return View(categoryDto);
+                TempData["error"] = "An error occured.";
 
             try
             {
@@ -125,7 +125,7 @@ namespace Web.Controllers
                 TempData["error"] = e.Message;
             }
 
-            return View(categoryDto);
+            return View();
         }
 
         // GET: Categories/Delete/5
