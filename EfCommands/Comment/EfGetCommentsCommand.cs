@@ -33,6 +33,7 @@ namespace EfCommands.Comment
                 Id = c.Id,
                 Text = c.Text,
                 CreatedAt = c.CreatedAt,
+                UpdatedAt = c.UpdatedAt,
                 ArticleId = c.ArticleId,
                 UserId = c.UserId,
                 Article = c.Article.Title,

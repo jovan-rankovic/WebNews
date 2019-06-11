@@ -35,6 +35,7 @@ namespace EfCommands.Article
                 Content = a.Content,
                 Image = a.ImagePath,
                 CreatedAt = a.CreatedAt,
+                UpdatedAt = a.UpdatedAt,
                 AuthorId = a.UserId,
                 Author = a.User.FirstName + " " + a.User.LastName,
                 Comments = a.Comments.Select(c => c.Text),

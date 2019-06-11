@@ -26,6 +26,7 @@ namespace EfCommands.Comment
                 Id = comment.Id,
                 Text = comment.Text,
                 CreatedAt = comment.CreatedAt,
+                UpdatedAt = comment.UpdatedAt,
                 ArticleId = comment.ArticleId,
                 UserId = comment.UserId,
                 Article = comment.Article.Title,

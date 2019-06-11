@@ -24,6 +24,10 @@ namespace Application.DataTransfer
         [DisplayFormat(DataFormatString = "{0:dd.MM.yyyy. HH:mm}")]
         public System.DateTime CreatedAt { get; set; }
 
+        [Display(Name = "Updated at")]
+        [DisplayFormat(DataFormatString = "{0:dd.MM.yyyy. HH:mm}")]
+        public System.DateTime UpdatedAt { get; set; }
+
         public int AuthorId { get; set; }
         public string Author { get; set; }
 
