@@ -30,10 +30,10 @@ namespace Application.DataTransfer
         public int AuthorId { get; set; }
 
         [Required]
-        public IEnumerable<int> CategoryId { get; set; }
+        public IEnumerable<int> CategoryIds { get; set; }
 
         [Required]
-        public IEnumerable<int> HashtagId { get; set; }
+        public IEnumerable<int> HashtagIds { get; set; }
 
         public string Author { get; set; }
 
