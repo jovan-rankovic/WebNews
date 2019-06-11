@@ -16,7 +16,6 @@ namespace Application.DataTransfer
         public string Content { get; set; }
 
         [Required]
-        [DataType(DataType.ImageUrl)]
         [FileExtensions(ErrorMessage = "Invalid extension. (allowed: jpg, jpeg, png)", Extensions = "jpg,jpeg,png")]
         public string Image { get; set; }
 
