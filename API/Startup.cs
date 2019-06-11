@@ -1,9 +1,13 @@
 ﻿using Application.Commands.Article;
 using Application.Commands.Category;
+using Application.Commands.Comment;
+using Application.Commands.Hashtag;
 using Application.Commands.Role;
 using Application.Commands.User;
 using EfCommands.Article;
 using EfCommands.Category;
+using EfCommands.Comment;
+using EfCommands.Hashtag;
 using EfCommands.Role;
 using EfCommands.User;
 using EfDataAccess;
@@ -53,6 +57,18 @@ namespace API
             services.AddTransient<ICreateUserCommand, EfCreateUserCommand>();
             services.AddTransient<IEditUserCommand, EfEditUserCommand>();
             services.AddTransient<IDeleteUserCommand, EfDeleteUserCommand>();
+
+            services.AddTransient<IGetCommentsCommand, EfGetCommentsCommand>();
+            services.AddTransient<IGetCommentCommand, EfGetCommentCommand>();
+            services.AddTransient<ICreateCommentCommand, EfCreateCommentCommand>();
+            services.AddTransient<IEditCommentCommand, EfEditCommentCommand>();
+            services.AddTransient<IDeleteCommentCommand, EfDeleteCommentCommand>();
+
+            services.AddTransient<IGetHashtagsCommand, EfGetHashtagsCommand>();
+            services.AddTransient<IGetHashtagCommand, EfGetHashtagCommand>();
+            services.AddTransient<ICreateHashtagCommand, EfCreateHashtagCommand>();
+            services.AddTransient<IEditHashtagCommand, EfEditHashtagCommand>();
+            services.AddTransient<IDeleteHashtagCommand, EfDeleteHashtagCommand>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
