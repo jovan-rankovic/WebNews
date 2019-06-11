@@ -1,15 +1,14 @@
 ﻿using Application.Commands.Article;
 using Application.Commands.Category;
-using Application.Commands.Role;
-using Application.Commands.User;
+using Application.Commands.Comment;
+using Application.Commands.Hashtag;
 using EfCommands.Article;
 using EfCommands.Category;
-using EfCommands.Role;
-using EfCommands.User;
+using EfCommands.Comment;
+using EfCommands.Hashtag;
 using EfDataAccess;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -28,13 +27,6 @@ namespace Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.Configure<CookiePolicyOptions>(options =>
-            {
-                // This lambda determines whether user consent for non-essential cookies is needed for a given request.
-                options.CheckConsentNeeded = context => true;
-                options.MinimumSameSitePolicy = SameSiteMode.None;
-            });
-
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddDbContext<WebNewsContext>();
 
@@ -50,17 +42,17 @@ namespace Web
             services.AddTransient<IEditCategoryCommand, EfEditCategoryCommand>();
             services.AddTransient<IDeleteCategoryCommand, EfDeleteCategoryCommand>();
 
-            services.AddTransient<IGetRolesCommand, EfGetRolesCommand>();
-            services.AddTransient<IGetRoleCommand, EfGetRoleCommand>();
-            services.AddTransient<ICreateRoleCommand, EfCreateRoleCommand>();
-            services.AddTransient<IEditRoleCommand, EfEditRoleCommand>();
-            services.AddTransient<IDeleteRoleCommand, EfDeleteRoleCommand>();
+            services.AddTransient<IGetCommentsCommand, EfGetCommentsCommand>();
+            services.AddTransient<IGetCommentCommand, EfGetCommentCommand>();
+            services.AddTransient<ICreateCommentCommand, EfCreateCommentCommand>();
+            services.AddTransient<IEditCommentCommand, EfEditCommentCommand>();
+            services.AddTransient<IDeleteCommentCommand, EfDeleteCommentCommand>();
 
-            services.AddTransient<IGetUsersCommand, EfGetUsersCommand>();
-            services.AddTransient<IGetUserCommand, EfGetUserCommand>();
-            services.AddTransient<ICreateUserCommand, EfCreateUserCommand>();
-            services.AddTransient<IEditUserCommand, EfEditUserCommand>();
-            services.AddTransient<IDeleteUserCommand, EfDeleteUserCommand>();
+            services.AddTransient<IGetHashtagsCommand, EfGetHashtagsCommand>();
+            services.AddTransient<IGetHashtagCommand, EfGetHashtagCommand>();
+            services.AddTransient<ICreateHashtagCommand, EfCreateHashtagCommand>();
+            services.AddTransient<IEditHashtagCommand, EfEditHashtagCommand>();
+            services.AddTransient<IDeleteHashtagCommand, EfDeleteHashtagCommand>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -79,7 +71,6 @@ namespace Web
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-            app.UseCookiePolicy();
 
             app.UseMvc(routes =>
             {
