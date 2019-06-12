@@ -67,17 +67,20 @@ namespace API.Controllers
 
             try
             {
-                var newFileName = Guid.NewGuid().ToString() + "_" + articleImageUpload.ImageFile.FileName;
-                var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "img", "article", newFileName);
-                articleImageUpload.ImageFile.CopyTo(new FileStream(filePath, FileMode.Create));
-
                 var articleDto = new ArticleDto
                 {
                     Title = articleImageUpload.Title,
                     Content = articleImageUpload.Content,
-                    AuthorId = articleImageUpload.AuthorId,
-                    Image = "img/article/" + newFileName
+                    AuthorId = articleImageUpload.AuthorId
                 };
+
+                if (articleImageUpload.ImageFile != null)
+                {
+                    var newFileName = Guid.NewGuid().ToString() + "_" + articleImageUpload.ImageFile.FileName;
+                    var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "img", "article", newFileName);
+                    articleImageUpload.ImageFile.CopyTo(new FileStream(filePath, FileMode.Create));
+                    articleDto.Image = "img/article/" + newFileName;
+                }
 
                 _createArticleCommand.Execute(articleDto);
                 return StatusCode(StatusCodes.Status201Created);
@@ -106,17 +109,20 @@ namespace API.Controllers
 
             try
             {
-                var newFileName = Guid.NewGuid().ToString() + "_" + articleImageUpload.ImageFile.FileName;
-                var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "img", "article", newFileName);
-                articleImageUpload.ImageFile.CopyTo(new FileStream(filePath, FileMode.Create));
-
                 var articleDto = new ArticleDto
                 {
                     Title = articleImageUpload.Title,
                     Content = articleImageUpload.Content,
-                    AuthorId = articleImageUpload.AuthorId,
-                    Image = "img/article/" + newFileName
+                    AuthorId = articleImageUpload.AuthorId
                 };
+
+                if (articleImageUpload.ImageFile != null)
+                {
+                    var newFileName = Guid.NewGuid().ToString() + "_" + articleImageUpload.ImageFile.FileName;
+                    var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "img", "article", newFileName);
+                    articleImageUpload.ImageFile.CopyTo(new FileStream(filePath, FileMode.Create));
+                    articleDto.Image = "img/article/" + newFileName;
+                }
 
                 _editArticleCommand.Execute((id, articleDto));
                 return NoContent();
