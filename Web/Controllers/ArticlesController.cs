@@ -44,7 +44,8 @@ namespace Web.Controllers
                     Text = c.Text,
                     User = c.User.FirstName + " " + c.User.LastName,
                     CreatedAt = c.CreatedAt,
-                    UpdatedAt = c.UpdatedAt
+                    UpdatedAt = c.UpdatedAt,
+                    UserId = c.UserId
                 });
 
             try
