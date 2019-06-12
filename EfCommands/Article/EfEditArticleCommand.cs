@@ -2,6 +2,7 @@
 using Application.DataTransfer;
 using Application.Exceptions;
 using EfDataAccess;
+using Microsoft.EntityFrameworkCore;
 using System.Linq;
 
 namespace EfCommands.Article
@@ -12,7 +13,12 @@ namespace EfCommands.Article
 
         public void Execute((int id, ArticleDto articleDto) request)
         {
-            var article = Context.Articles.Find(request.id);
+            var article = Context.Articles
+                .Include(a => a.ArticleCategories)
+                .ThenInclude(ac => ac.Category)
+                .Include(a => a.ArticleHashtags)
+                .ThenInclude(ah => ah.Hashtag)
+                .First(a => a.Id == request.id);
 
             if (article == null)
                 throw new EntityNotFoundException("Article");
@@ -24,25 +30,32 @@ namespace EfCommands.Article
             article.UpdatedAt = System.DateTime.Now;
             article.Title = request.articleDto.Title.Trim();
             article.Content = request.articleDto.Content.Trim();
-            article.ImagePath = request.articleDto.Image.Trim();
             article.UserId = request.articleDto.AuthorId;
 
-            foreach (var categoryId in request.articleDto.CategoryIds)
-            {
-                Context.ArticleCategory.Add(new Domain.ArticleCategory
-                {
-                    ArticleId = request.id,
-                    CategoryId = categoryId
-                });
-            }
+            if (request.articleDto.Image != null)
+                article.ImagePath = request.articleDto.Image;
 
-            foreach (var hashtagId in request.articleDto.HashtagIds)
+            if (request.articleDto.CategoryIds != null && request.articleDto.HashtagIds != null)
             {
-                Context.ArticleHashtag.Add(new Domain.ArticleHashtag
-                {
-                    ArticleId = request.id,
-                    HashtagId = hashtagId
-                });
+                foreach (var category in Context.ArticleCategory.Where(ac => ac.ArticleId == request.id))
+                    Context.ArticleCategory.Remove(category);
+
+                foreach (var categoryId in request.articleDto.CategoryIds)
+                    Context.ArticleCategory.Add(new Domain.ArticleCategory
+                    {
+                        ArticleId = request.id,
+                        CategoryId = categoryId
+                    });
+
+                foreach (var hashtag in Context.ArticleHashtag.Where(ah => ah.ArticleId == request.id))
+                    Context.ArticleHashtag.Remove(hashtag);
+
+                foreach (var hashtagId in request.articleDto.HashtagIds)
+                    Context.ArticleHashtag.Add(new Domain.ArticleHashtag
+                    {
+                        ArticleId = request.id,
+                        HashtagId = hashtagId
+                    });
             }
 
             Context.SaveChanges();

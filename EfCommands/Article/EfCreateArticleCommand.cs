@@ -15,30 +15,37 @@ namespace EfCommands.Article
             if (Context.Articles.Any(a => a.Title == request.Title.Trim()))
                 throw new EntityAlreadyExistsException("Article");
 
-            Context.Articles.Add(new Domain.Article
+            var article = new Domain.Article
             {
                 Title = request.Title.Trim(),
                 Content = request.Content.Trim(),
-                ImagePath = request.Image.Trim(),
+                ImagePath = request.Image,
                 UserId = request.AuthorId
-            });
+            };
 
-            foreach (var categoryId in request.CategoryIds)
-            {
-                Context.ArticleCategory.Add(new Domain.ArticleCategory
-                {
-                    ArticleId = request.Id,
-                    CategoryId = categoryId
-                });
-            }
+            Context.Articles.Add(article);
 
-            foreach (var hashtagId in request.HashtagIds)
+            Context.SaveChanges();
+
+            if (request.CategoryIds != null && request.HashtagIds != null)
             {
-                Context.ArticleHashtag.Add(new Domain.ArticleHashtag
+                foreach (var categoryId in request.CategoryIds)
                 {
-                    ArticleId = request.Id,
-                    HashtagId = hashtagId
-                });
+                    Context.ArticleCategory.Add(new Domain.ArticleCategory
+                    {
+                        ArticleId = article.Id,
+                        CategoryId = categoryId
+                    });
+                }
+
+                foreach (var hashtagId in request.HashtagIds)
+                {
+                    Context.ArticleHashtag.Add(new Domain.ArticleHashtag
+                    {
+                        ArticleId = article.Id,
+                        HashtagId = hashtagId
+                    });
+                }
             }
 
             Context.SaveChanges();
