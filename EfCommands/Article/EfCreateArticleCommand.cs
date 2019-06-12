@@ -1,6 +1,7 @@
 ﻿using Application.Commands.Article;
 using Application.DataTransfer;
 using Application.Exceptions;
+using Application.Interfaces;
 using EfDataAccess;
 using System.Linq;
 
@@ -8,7 +9,12 @@ namespace EfCommands.Article
 {
     public class EfCreateArticleCommand : BaseEfCommand, ICreateArticleCommand
     {
-        public EfCreateArticleCommand(WebNewsContext context) : base(context) { }
+        private readonly IEmailSender _emailSender;
+
+        public EfCreateArticleCommand(WebNewsContext context, IEmailSender emailSender) : base(context)
+        {
+            _emailSender = emailSender;
+        }
 
         public void Execute(ArticleDto request)
         {
@@ -49,6 +55,11 @@ namespace EfCommands.Article
             }
 
             Context.SaveChanges();
+
+            _emailSender.Subject = request.Title;
+            _emailSender.Body = request.Content;
+            _emailSender.ToEmail = "webnewsapi@gmail.com";
+            _emailSender.Send();
         }
     }
 }

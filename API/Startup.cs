@@ -1,9 +1,11 @@
-﻿using Application.Commands.Article;
+﻿using API.Email;
+using Application.Commands.Article;
 using Application.Commands.Category;
 using Application.Commands.Comment;
 using Application.Commands.Hashtag;
 using Application.Commands.Role;
 using Application.Commands.User;
+using Application.Interfaces;
 using EfCommands.Article;
 using EfCommands.Category;
 using EfCommands.Comment;
@@ -69,6 +71,13 @@ namespace API
             services.AddTransient<ICreateHashtagCommand, EfCreateHashtagCommand>();
             services.AddTransient<IEditHashtagCommand, EfEditHashtagCommand>();
             services.AddTransient<IDeleteHashtagCommand, EfDeleteHashtagCommand>();
+
+            var section = Configuration.GetSection("Email");
+
+            var sender =
+                new SmtpEmailSender(section["host"], int.Parse(section["port"]), section["fromaddress"], section["password"]);
+
+            services.AddSingleton<IEmailSender>(sender);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
