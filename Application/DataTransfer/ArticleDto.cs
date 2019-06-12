@@ -15,7 +15,6 @@ namespace Application.DataTransfer
         [DataType(DataType.MultilineText)]
         public string Content { get; set; }
 
-        [FileExtensions(ErrorMessage = "Invalid extension. (allowed: jpg, jpeg, png)", Extensions = "jpg,jpeg,png")]
         public string Image { get; set; }
 
         [Display(Name = "Date posted")]
