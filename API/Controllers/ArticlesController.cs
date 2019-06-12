@@ -1,10 +1,13 @@
 ﻿using Application.Commands.Article;
 using Application.DataTransfer;
 using Application.Exceptions;
+using Application.Helpers;
 using Application.Searches;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.IO;
+using System.Linq;
 
 namespace API.Controllers
 {
@@ -52,10 +55,30 @@ namespace API.Controllers
 
         // POST: api/Articles
         [HttpPost]
-        public IActionResult Post([FromBody] ArticleDto articleDto)
+        public IActionResult Post([FromForm] ArticleImageUpload articleImageUpload)
         {
+            if (articleImageUpload.ImageFile != null)
+            {
+                var ext = Path.GetExtension(articleImageUpload.ImageFile.FileName);
+
+                if (!FileUpload.AllowedExtensions.Contains(ext))
+                    return UnprocessableEntity("Image extension is not allowed.");
+            }
+
             try
             {
+                var newFileName = Guid.NewGuid().ToString() + "_" + articleImageUpload.ImageFile.FileName;
+                var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "img", "article", newFileName);
+                articleImageUpload.ImageFile.CopyTo(new FileStream(filePath, FileMode.Create));
+
+                var articleDto = new ArticleDto
+                {
+                    Title = articleImageUpload.Title,
+                    Content = articleImageUpload.Content,
+                    AuthorId = articleImageUpload.AuthorId,
+                    Image = "img/article/" + newFileName
+                };
+
                 _createArticleCommand.Execute(articleDto);
                 return StatusCode(StatusCodes.Status201Created);
             }
@@ -71,10 +94,30 @@ namespace API.Controllers
 
         // PUT: api/Articles/5
         [HttpPut("{id}")]
-        public IActionResult Put(int id, [FromBody] ArticleDto articleDto)
+        public IActionResult Put(int id, [FromForm] ArticleImageUpload articleImageUpload)
         {
+            if (articleImageUpload.ImageFile != null)
+            {
+                var ext = Path.GetExtension(articleImageUpload.ImageFile.FileName);
+
+                if (!FileUpload.AllowedExtensions.Contains(ext))
+                    return UnprocessableEntity("Image extension is not allowed.");
+            }
+
             try
             {
+                var newFileName = Guid.NewGuid().ToString() + "_" + articleImageUpload.ImageFile.FileName;
+                var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "img", "article", newFileName);
+                articleImageUpload.ImageFile.CopyTo(new FileStream(filePath, FileMode.Create));
+
+                var articleDto = new ArticleDto
+                {
+                    Title = articleImageUpload.Title,
+                    Content = articleImageUpload.Content,
+                    AuthorId = articleImageUpload.AuthorId,
+                    Image = "img/article/" + newFileName
+                };
+
                 _editArticleCommand.Execute((id, articleDto));
                 return NoContent();
             }
@@ -109,6 +152,14 @@ namespace API.Controllers
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
             }
+        }
+
+        public class ArticleImageUpload
+        {
+            public string Title { get; set; }
+            public string Content { get; set; }
+            public int AuthorId { get; set; }
+            public IFormFile ImageFile { get; set; }
         }
     }
 }
