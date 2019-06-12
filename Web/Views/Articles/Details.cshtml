@@ -72,18 +72,24 @@
                     <div class="media-body">
                         <a href="/comments/delete/@comment.Id" class="float-right text-danger article-links">Delete</a>
                         <a href="/comments/edit/@comment.Id" class="float-right article-links">Edit</a>
-                        <h5 class="mt-0">@comment.User</h5>
+                        <h5 class="mt-0">
+                            @comment.User
+                            @if (comment.UserId == Model.AuthorId)
+                            {
+                                <i class="text-danger small">Author</i>
+                            }
+                        </h5>
                         <p class="small">
                             @comment.UpdatedAt
-                        @if (comment.UpdatedAt != comment.CreatedAt)
-                        {
-                            <i>(edited)</i>
-                        }
-                    </p>
+                            @if (comment.UpdatedAt != comment.CreatedAt)
+                            {
+                                <i>(edited)</i>
+                            }
+                        </p>
                     <p>@comment.Text</p>
+                    </div>
                 </div>
-            </div>
-        }
+            }
 
         </div>
 
