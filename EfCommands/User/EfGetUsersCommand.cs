@@ -1,8 +1,8 @@
 ﻿using Application.Commands.User;
 using Application.DataTransfer;
+using Application.Responses;
 using Application.Searches;
 using EfDataAccess;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace EfCommands.User
@@ -11,7 +11,7 @@ namespace EfCommands.User
     {
         public EfGetUsersCommand(WebNewsContext context) : base(context) { }
 
-        public IEnumerable<UserDto> Execute(UserSearch request)
+        public PagedResponse<UserDto> Execute(UserSearch request)
         {
             var query = Context.Users.AsQueryable();
 
@@ -25,19 +25,30 @@ namespace EfCommands.User
                 query = query.Where(u => u.Email.ToLower().Contains(request.Email.ToLower()));
 
             if (request.IsAdmin == true)
-                query = query.Where(u => u.Role.Name.ToLower().Contains("admin")); // or u.RoleId
+                query = query.Where(u => u.Role.Name.ToLower().Contains("admin"));
 
-            return query.Select(u => new UserDto
+            query = query.Skip((request.PageNumber - 1) * request.PerPage).Take(request.PerPage);
+
+            var totalCount = query.Count();
+            var pagesCount = (int)System.Math.Ceiling((double)totalCount / request.PerPage);
+
+            return new PagedResponse<UserDto>
             {
-                Id = u.Id,
-                FirstName = u.FirstName,
-                LastName = u.LastName,
-                Email = u.LastName,
-                RoleId = u.RoleId,
-                Role = u.Role.Name,
-                Articles = u.Articles.Select(a => a.Title),
-                Comments = u.Comments.Select(c => c.Text)
-            });
+                CurrentPage = request.PageNumber,
+                TotalCount = totalCount,
+                PagesCount = pagesCount,
+                Data = query.Select(u => new UserDto
+                {
+                    Id = u.Id,
+                    FirstName = u.FirstName,
+                    LastName = u.LastName,
+                    Email = u.LastName,
+                    RoleId = u.RoleId,
+                    Role = u.Role.Name,
+                    Articles = u.Articles.Select(a => a.Title),
+                    Comments = u.Comments.Select(c => c.Text)
+                })
+            };
         }
     }
 }
