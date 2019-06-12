@@ -59,7 +59,10 @@ namespace Web.Controllers
         public ActionResult Create(CategoryDto categoryDto)
         {
             if (!ModelState.IsValid)
+            {
                 TempData["error"] = "An error occured.";
+                return View();
+            }
 
             try
             {
@@ -104,7 +107,10 @@ namespace Web.Controllers
         public ActionResult Edit(int id, CategoryDto categoryDto)
         {
             if (!ModelState.IsValid)
+            {
                 TempData["error"] = "An error occured.";
+                return View();
+            }
 
             try
             {

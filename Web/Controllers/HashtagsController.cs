@@ -63,7 +63,10 @@ namespace Web.Controllers
         public ActionResult Create(HashtagDto hashtagDto)
         {
             if (!ModelState.IsValid)
+            {
                 TempData["error"] = "An error occured.";
+                return View();
+            }
 
             try
             {
@@ -108,7 +111,10 @@ namespace Web.Controllers
         public ActionResult Edit(int id, HashtagDto hashtagDto)
         {
             if (!ModelState.IsValid)
+            {
                 TempData["error"] = "An error occured.";
+                return View();
+            }
 
             try
             {

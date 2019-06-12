@@ -78,7 +78,10 @@ namespace Web.Controllers
         public ActionResult Create(CommentDto commentDto)
         {
             if (!ModelState.IsValid)
+            {
                 TempData["error"] = "An error occured.";
+                return View();
+            }
 
             try
             {
@@ -133,7 +136,10 @@ namespace Web.Controllers
         public ActionResult Edit(int id, CommentDto commentDto)
         {
             if (!ModelState.IsValid)
+            {
                 TempData["error"] = "An error occured.";
+                return View();
+            }
 
             try
             {
