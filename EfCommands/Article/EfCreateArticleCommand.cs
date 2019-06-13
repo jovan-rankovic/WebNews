@@ -12,9 +12,7 @@ namespace EfCommands.Article
         private readonly IEmailSender _emailSender;
 
         public EfCreateArticleCommand(WebNewsContext context, IEmailSender emailSender) : base(context)
-        {
-            _emailSender = emailSender;
-        }
+            => _emailSender = emailSender;
 
         public void Execute(ArticleDto request)
         {
@@ -56,8 +54,8 @@ namespace EfCommands.Article
 
             Context.SaveChanges();
 
-            _emailSender.Subject = request.Title;
-            _emailSender.Body = request.Content;
+            _emailSender.Subject = "Lastest news";
+            _emailSender.Body = request.Title + " - read more on our site.";
             _emailSender.ToEmail = "webnewsapi@gmail.com";
             _emailSender.Send();
         }
