@@ -54,6 +54,16 @@ namespace EfCommands.Article
 
             Context.SaveChanges();
 
+            //  Mailing list - disabled because of spam
+            //  ----------------------------------------
+            //  foreach (var user in Context.Users)
+            //  {
+            //      _emailSender.Subject = "Lastest news";
+            //      _emailSender.Body = request.Title + " - read more on our site.";
+            //      _emailSender.ToEmail = user.Email;
+            //      _emailSender.Send();
+            //  }
+
             _emailSender.Subject = "Lastest news";
             _emailSender.Body = request.Title + " - read more on our site.";
             _emailSender.ToEmail = "webnewsapi@gmail.com";
