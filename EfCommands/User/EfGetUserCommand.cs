@@ -17,7 +17,7 @@ namespace EfCommands.User
                 .Include(u => u.Role)
                 .Include(u => u.Articles)
                 .Include(u => u.Comments)
-                .First(u => u.Id == request);
+                .FirstOrDefault(u => u.Id == request);
 
             if (user == null)
                 throw new EntityNotFoundException("User");

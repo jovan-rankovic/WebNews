@@ -15,7 +15,7 @@ namespace EfCommands.Role
         {
             var role = Context.Roles
                 .Include(r => r.Users)
-                .First(r => r.Id == request);
+                .FirstOrDefault(r => r.Id == request);
 
             if (role == null)
                 throw new EntityNotFoundException("Role");

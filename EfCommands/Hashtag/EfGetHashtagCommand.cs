@@ -16,7 +16,7 @@ namespace EfCommands.Hashtag
             var hashtag = Context.Hashtags
                 .Include(h => h.HashtagArticles)
                 .ThenInclude(ah => ah.Article)
-                .First(h => h.Id == request);
+                .FirstOrDefault(h => h.Id == request);
 
             if (hashtag == null)
                 throw new EntityNotFoundException("Hashtag");

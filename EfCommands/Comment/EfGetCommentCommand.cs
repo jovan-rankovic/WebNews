@@ -16,7 +16,7 @@ namespace EfCommands.Comment
             var comment = Context.Comments
                 .Include(c => c.Article)
                 .Include(c => c.User)
-                .First(c => c.Id == request);
+                .FirstOrDefault(c => c.Id == request);
 
             if (comment == null)
                 throw new EntityNotFoundException("Comment");

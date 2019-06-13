@@ -15,7 +15,7 @@ namespace EfCommands.Category
             var category = Context.Categories
                 .Include(c => c.CategoryArticles)
                 .ThenInclude(ac => ac.Article)
-                .First(c => c.Id == request);
+                .FirstOrDefault(c => c.Id == request);
 
             if (category == null)
                 throw new EntityNotFoundException("Category");

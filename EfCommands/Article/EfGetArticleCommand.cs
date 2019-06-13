@@ -20,7 +20,7 @@ namespace EfCommands.Article
                 .ThenInclude(ac => ac.Category)
                 .Include(a => a.ArticleHashtags)
                 .ThenInclude(ah => ah.Hashtag)
-                .First(a => a.Id == request);
+                .FirstOrDefault(a => a.Id == request);
 
             if (article == null)
                 throw new EntityNotFoundException("Article");
