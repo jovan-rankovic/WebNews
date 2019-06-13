@@ -6,6 +6,7 @@ using Application.Searches;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Generic;
 
 namespace API.Controllers
 {
@@ -28,16 +29,52 @@ namespace API.Controllers
             _deleteRoleCommand = deleteRoleCommand;
         }
 
-        // GET: api/Roles
+        /// <summary>
+        /// Returns all roles that match provided query (Admin)
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// Sample request:
+        /// 
+        ///     GET api/Roles
+        ///     {
+        ///        "name": "Role",
+        ///        "Users": [
+        ///             "Test",
+        ///             "User"
+        ///         ],
+        ///        "id": 1
+        ///     }
+        ///     
+        /// </remarks>
         [HttpGet]
         [LoggedIn("Admin")]
-        public IActionResult Get([FromQuery] RoleSearch roleSearch)
+        public ActionResult<IEnumerable<RoleDto>> Get([FromQuery] RoleSearch roleSearch)
             => Ok(_searchRolesCommand.Execute(roleSearch));
 
-        // GET: api/Roles/5
+        /// <summary>
+        /// Returns a specific role (Admin)
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// Sample request:
+        /// 
+        ///     GET api/Roles/5
+        ///     {
+        ///        "name": "Role",
+        ///        "Users": [
+        ///             "Test",
+        ///             "User"
+        ///         ],
+        ///        "id": 5
+        ///     }
+        ///     
+        /// </remarks>
+        /// <response code="404">If the role was not found</response>
+        /// <response code="500">If another exception happens</response>
         [HttpGet("{id}")]
         [LoggedIn("Admin")]
-        public IActionResult Get(int id)
+        public ActionResult<RoleDto> Get(int id)
         {
             try
             {
@@ -53,10 +90,25 @@ namespace API.Controllers
             }
         }
 
-        // POST: api/Roles
+        /// <summary>
+        /// Creates a role (Admin)
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// Sample request:
+        ///
+        ///     POST api/Roles
+        ///     {
+        ///        "name": "Role"
+        ///     }
+        ///     
+        /// </remarks>
+        /// <response code="400">If validation fails</response>
+        /// <response code="409">If a role with the same name already exists</response>
+        /// <response code="500">If another exception happens</response>
         [HttpPost]
         [LoggedIn("Admin")]
-        public IActionResult Post([FromBody] RoleDto roleDto)
+        public ActionResult Post([FromBody] RoleDto roleDto)
         {
             try
             {
@@ -73,10 +125,26 @@ namespace API.Controllers
             }
         }
 
-        // PUT: api/Roles/5
+        /// <summary>
+        /// Edits a role (Admin)
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// Sample request:
+        ///
+        ///     PUT api/Roles/5
+        ///     {
+        ///        "name": "Test"
+        ///     }
+        ///     
+        /// </remarks>
+        /// <response code="400">If validation fails</response>
+        /// <response code="404">If the role was not found</response>
+        /// <response code="409">If a role with the same name already exists</response>
+        /// <response code="500">If another exception happens</response>
         [HttpPut("{id}")]
         [LoggedIn("Admin")]
-        public IActionResult Put(int id, [FromBody] RoleDto roleDto)
+        public ActionResult Put(int id, [FromBody] RoleDto roleDto)
         {
             try
             {
@@ -97,10 +165,22 @@ namespace API.Controllers
             }
         }
 
-        // DELETE: api/ApiWithActions/5
+        /// <summary>
+        /// Deletes a role if it isn't the admin role (Admin)
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// Sample request:
+        ///
+        ///     DELETE api/Roles/5
+        ///     { }
+        ///     
+        /// </remarks>
+        /// <response code="404">If the role was not found</response>
+        /// <response code="500">If another exception happens</response>
         [HttpDelete("{id}")]
         [LoggedIn("Admin")]
-        public IActionResult Delete(int id)
+        public ActionResult Delete(int id)
         {
             try
             {

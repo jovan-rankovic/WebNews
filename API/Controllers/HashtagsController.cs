@@ -6,6 +6,7 @@ using Application.Searches;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Generic;
 
 namespace API.Controllers
 {
@@ -28,16 +29,52 @@ namespace API.Controllers
             _deleteHashtagCommand = deleteHashtagCommand;
         }
 
-        // GET: api/Hashtags
+        /// <summary>
+        /// Returns all hashtags that match provided query (Logged in)
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// Sample request:
+        /// 
+        ///     GET api/Hashtags
+        ///     {
+        ///        "tag": "#hashtag",
+        ///        "articlesWithHashtag": [
+        ///             "Test",
+        ///             "Article"
+        ///         ],
+        ///        "id": 1
+        ///     }
+        ///     
+        /// </remarks>
         [HttpGet]
         [LoggedIn]
-        public IActionResult Get([FromQuery] HashtagSearch hashtagSearch)
+        public ActionResult<IEnumerable<HashtagDto>> Get([FromQuery] HashtagSearch hashtagSearch)
             => Ok(_searchHashtagsCommand.Execute(hashtagSearch));
 
-        // GET: api/Hashtags/5
+        /// <summary>
+        /// Returns a specific hashtag (Logged in)
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// Sample request:
+        /// 
+        ///     GET api/Hashtags/5
+        ///     {
+        ///        "tag": "#hashtag",
+        ///        "articlesWithHashtag": [
+        ///             "Test",
+        ///             "Article"
+        ///         ],
+        ///        "id": 5
+        ///     }
+        ///     
+        /// </remarks>
+        /// <response code="404">If the hashtag was not found</response>
+        /// <response code="500">If another exception happens</response>
         [HttpGet("{id}")]
         [LoggedIn]
-        public IActionResult Get(int id)
+        public ActionResult<HashtagDto> Get(int id)
         {
             try
             {
@@ -53,10 +90,25 @@ namespace API.Controllers
             }
         }
 
-        // POST: api/Hashtags
+        /// <summary>
+        /// Creates a hashtag (Logged in)
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// Sample request:
+        ///
+        ///     POST api/Hashtags
+        ///     {
+        ///        "tag": "#hashtag"
+        ///     }
+        ///     
+        /// </remarks>
+        /// <response code="400">If validation fails</response>
+        /// <response code="409">If a hashtag with the same tag already exists</response>
+        /// <response code="500">If another exception happens</response>
         [HttpPost]
         [LoggedIn]
-        public IActionResult Post([FromBody] HashtagDto hashtagDto)
+        public ActionResult Post([FromBody] HashtagDto hashtagDto)
         {
             try
             {
@@ -73,10 +125,26 @@ namespace API.Controllers
             }
         }
 
-        // PUT: api/Hashtags/5
+        /// <summary>
+        /// Edits a hashtag (Admin)
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// Sample request:
+        ///
+        ///     PUT api/Hashtags/5
+        ///     {
+        ///        "tag": "#test"
+        ///     }
+        ///     
+        /// </remarks>
+        /// <response code="400">If validation fails</response>
+        /// <response code="404">If the hashtag was not found</response>
+        /// <response code="409">If a hashtag with the same tag already exists</response>
+        /// <response code="500">If another exception happens</response>
         [HttpPut("{id}")]
         [LoggedIn("Admin")]
-        public IActionResult Put(int id, [FromBody] HashtagDto hashtagDto)
+        public ActionResult Put(int id, [FromBody] HashtagDto hashtagDto)
         {
             try
             {
@@ -97,10 +165,22 @@ namespace API.Controllers
             }
         }
 
-        // DELETE: api/ApiWithActions/5
+        /// <summary>
+        /// Deletes a hashtag (Admin)
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// Sample request:
+        ///
+        ///     DELETE api/Hashtags/5
+        ///     { }
+        ///     
+        /// </remarks>
+        /// <response code="404">If the hashtag was not found</response>
+        /// <response code="500">If another exception happens</response>
         [HttpDelete("{id}")]
         [LoggedIn("Admin")]
-        public IActionResult Delete(int id)
+        public ActionResult Delete(int id)
         {
             try
             {

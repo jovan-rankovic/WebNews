@@ -22,9 +22,24 @@ namespace API.Controllers
             _enc = enc;
         }
 
-        // POST: api/Auth
+        /// <summary>
+        /// Encrypts and returns user token for logging in
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// Sample request:
+        ///
+        ///     POST api/Auth
+        ///     {
+        ///        "email": "test@gmail.com",
+        ///        "password": "passw0rd"
+        ///     }
+        ///     
+        /// </remarks>
+        /// <response code="401">If credentials are not valid</response>
+        /// <response code="500">If another exception happens</response>
         [HttpPost]
-        public IActionResult Post([FromForm] string email, [FromForm] string password)
+        public ActionResult<string> Post([FromForm] string email, [FromForm] string password)
         {
             try
             {
@@ -52,8 +67,22 @@ namespace API.Controllers
             }
         }
 
-        [HttpGet("decode")]
-        public IActionResult Decode(string value)
+        /// <summary>
+        /// Decrypts and returns user token
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// Sample request:
+        ///
+        ///     GET api/Decode
+        ///     {
+        ///        "value": "hKEw7tMD6BirA8uWNQkqEzUCo5m7x+ru1Q/A8jBlaavIixeT5n3Zvsb7l4IxIrW1uGsiTYHVJMUBJ/c5OvT5mAu4pvCLbD7YfZqUnWiknZv3Hbb423V2PgDkd6mW2gHDYsE8sX6hqFOJxws5YtKi+T4Pe7cklz8uCvFATSubkmo="
+        ///     }
+        ///     
+        /// </remarks>
+        /// <response code="500">If exception happens</response>
+        [HttpGet("Decode")]
+        public ActionResult<LoggedUser> Decode(string value)
         {
             try
             {

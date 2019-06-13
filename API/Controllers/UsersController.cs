@@ -6,6 +6,7 @@ using Application.Searches;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Generic;
 
 namespace API.Controllers
 {
@@ -28,16 +29,68 @@ namespace API.Controllers
             _deleteUserCommand = deleteUserCommand;
         }
 
-        // GET: api/Users
+        /// <summary>
+        /// Returns all users that match provided query (Admin)
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// Sample request:
+        /// 
+        ///     GET api/Users
+        ///     {
+        ///        "firstName": "Test",
+        ///        "lastName": "Dummy",
+        ///        "email": "test@gmail.com",
+        ///        "roleId": 1,
+        ///        "role": "Role",
+        ///        "articles": [
+        ///             "Test",
+        ///             "Article"
+        ///         ],
+        ///        "comments": [
+        ///             "Hello.",
+        ///             "World."
+        ///         ],
+        ///        "id": 1
+        ///     }
+        ///     
+        /// </remarks>
         [HttpGet]
         [LoggedIn("Admin")]
-        public IActionResult Get([FromQuery] UserSearch userSearch)
+        public ActionResult<IEnumerable<UserDto>> Get([FromQuery] UserSearch userSearch)
             => Ok(_searchUsersCommand.Execute(userSearch));
 
-        // GET: api/Users/5
+        /// <summary>
+        /// Returns a specific user (Admin)
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// Sample request:
+        /// 
+        ///     GET api/Users/5
+        ///     {
+        ///        "firstName": "Test",
+        ///        "lastName": "Dummy",
+        ///        "email": "test@gmail.com",
+        ///        "roleId": 1,
+        ///        "role": "Role",
+        ///        "articles": [
+        ///             "Test",
+        ///             "Article"
+        ///         ],
+        ///        "comments": [
+        ///             "Hello.",
+        ///             "World."
+        ///         ],
+        ///        "id": 5
+        ///     }
+        ///     
+        /// </remarks>
+        /// <response code="404">If the user was not found</response>
+        /// <response code="500">If another exception happens</response>
         [HttpGet("{id}")]
         [LoggedIn("Admin")]
-        public IActionResult Get(int id)
+        public ActionResult<UserDto> Get(int id)
         {
             try
             {
@@ -53,10 +106,29 @@ namespace API.Controllers
             }
         }
 
-        // POST: api/Users
+        /// <summary>
+        /// Creates a user (Admin)
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// Sample request:
+        ///
+        ///     POST api/Users
+        ///     {
+        ///        "firstName": "Test",
+        ///        "lastName": "Dummy",
+        ///        "email": "test@gmail.com",
+        ///        "password": "passw0rd",
+        ///        "roleId": 1
+        ///     }
+        ///     
+        /// </remarks>
+        /// <response code="400">If validation fails</response>
+        /// <response code="409">If a user with the same email already exists</response>
+        /// <response code="500">If another exception happens</response>
         [HttpPost]
         [LoggedIn("Admin")]
-        public IActionResult Post([FromBody] UserDto userDto)
+        public ActionResult Post([FromBody] UserDto userDto)
         {
             try
             {
@@ -73,10 +145,30 @@ namespace API.Controllers
             }
         }
 
-        // PUT: api/Users/5
+        /// <summary>
+        /// Edits a user (Admin)
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// Sample request:
+        ///
+        ///     PUT api/Users/5
+        ///     {
+        ///        "firstName": "Test",
+        ///        "lastName": "Dummy",
+        ///        "email": "dummy@gmail.com",
+        ///        "password": "passw0rd",
+        ///        "roleId": 1
+        ///     }
+        ///     
+        /// </remarks>
+        /// <response code="400">If validation fails</response>
+        /// <response code="404">If the user was not found</response>
+        /// <response code="409">If a user with the same email already exists</response>
+        /// <response code="500">If another exception happens</response>
         [HttpPut("{id}")]
         [LoggedIn("Admin")]
-        public IActionResult Put(int id, [FromBody] UserDto userDto)
+        public ActionResult Put(int id, [FromBody] UserDto userDto)
         {
             try
             {
@@ -97,10 +189,22 @@ namespace API.Controllers
             }
         }
 
-        // DELETE: api/ApiWithActions/5
+        /// <summary>
+        /// Deletes a user (Admin)
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// Sample request:
+        ///
+        ///     DELETE api/Users/5
+        ///     { }
+        ///     
+        /// </remarks>
+        /// <response code="404">If the user was not found</response>
+        /// <response code="500">If another exception happens</response>
         [HttpDelete("{id}")]
         [LoggedIn("Admin")]
-        public IActionResult Delete(int id)
+        public ActionResult Delete(int id)
         {
             try
             {

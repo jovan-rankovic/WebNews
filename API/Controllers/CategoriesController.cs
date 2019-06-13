@@ -6,6 +6,7 @@ using Application.Searches;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Generic;
 
 namespace API.Controllers
 {
@@ -28,16 +29,52 @@ namespace API.Controllers
             _deleteCategoryCommand = deleteCategoryCommand;
         }
 
-        // GET: api/Categories
+        /// <summary>
+        /// Returns all categories that match provided query (Logged in)
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// Sample request:
+        /// 
+        ///     GET api/Categories
+        ///     {
+        ///        "name": "Category",
+        ///        "articlesInCategory": [
+        ///             "Test",
+        ///             "Article"
+        ///         ],
+        ///        "id": 1
+        ///     }
+        ///     
+        /// </remarks>
         [HttpGet]
         [LoggedIn]
-        public IActionResult Get([FromQuery] CategorySearch categorySearch)
+        public ActionResult<IEnumerable<CategoryDto>> Get([FromQuery] CategorySearch categorySearch)
             => Ok(_searchCategoriesCommand.Execute(categorySearch));
 
-        // GET: api/Categories/5
+        /// <summary>
+        /// Returns a specific category (Logged in)
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// Sample request:
+        /// 
+        ///     GET api/Categories/5
+        ///     {
+        ///        "name": "Category",
+        ///        "articlesInCategory": [
+        ///             "Test",
+        ///             "Article"
+        ///         ],
+        ///        "id": 5
+        ///     }
+        ///     
+        /// </remarks>
+        /// <response code="404">If the category was not found</response>
+        /// <response code="500">If another exception happens</response>
         [HttpGet("{id}")]
         [LoggedIn]
-        public IActionResult Get(int id)
+        public ActionResult<CategoryDto> Get(int id)
         {
             try
             {
@@ -53,10 +90,25 @@ namespace API.Controllers
             }
         }
 
-        // POST: api/Categories
+        /// <summary>
+        /// Creates a category (Admin)
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// Sample request:
+        ///
+        ///     POST api/Categories
+        ///     {
+        ///        "name": "Category"
+        ///     }
+        ///     
+        /// </remarks>
+        /// <response code="400">If validation fails</response>
+        /// <response code="409">If a category with the same name already exists</response>
+        /// <response code="500">If another exception happens</response>
         [HttpPost]
         [LoggedIn("Admin")]
-        public IActionResult Post([FromBody] CategoryDto categoryDto)
+        public ActionResult Post([FromBody] CategoryDto categoryDto)
         {
             try
             {
@@ -73,10 +125,26 @@ namespace API.Controllers
             }
         }
 
-        // PUT: api/Categories/5
+        /// <summary>
+        /// Edits a category (Admin)
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// Sample request:
+        ///
+        ///     PUT api/Categories/5
+        ///     {
+        ///        "name": "Test"
+        ///     }
+        ///     
+        /// </remarks>
+        /// <response code="400">If validation fails</response>
+        /// <response code="404">If the category was not found</response>
+        /// <response code="409">If a category with the same name already exists</response>
+        /// <response code="500">If another exception happens</response>
         [HttpPut("{id}")]
         [LoggedIn("Admin")]
-        public IActionResult Put(int id, [FromBody] CategoryDto categoryDto)
+        public ActionResult Put(int id, [FromBody] CategoryDto categoryDto)
         {
             try
             {
@@ -97,10 +165,22 @@ namespace API.Controllers
             }
         }
 
-        // DELETE: api/Categories/5
+        /// <summary>
+        /// Deletes a category (Admin)
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// Sample request:
+        ///
+        ///     DELETE api/Categories/5
+        ///     { }
+        ///     
+        /// </remarks>
+        /// <response code="404">If the category was not found</response>
+        /// <response code="500">If another exception happens</response>
         [HttpDelete("{id}")]
         [LoggedIn("Admin")]
-        public IActionResult Delete(int id)
+        public ActionResult Delete(int id)
         {
             try
             {
