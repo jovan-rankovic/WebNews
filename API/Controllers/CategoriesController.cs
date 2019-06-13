@@ -1,4 +1,5 @@
-﻿using Application.Commands.Category;
+﻿using API.Helpers;
+using Application.Commands.Category;
 using Application.DataTransfer;
 using Application.Exceptions;
 using Application.Searches;
@@ -29,11 +30,13 @@ namespace API.Controllers
 
         // GET: api/Categories
         [HttpGet]
+        [LoggedIn]
         public IActionResult Get([FromQuery] CategorySearch categorySearch)
             => Ok(_searchCategoriesCommand.Execute(categorySearch));
 
         // GET: api/Categories/5
         [HttpGet("{id}")]
+        [LoggedIn]
         public IActionResult Get(int id)
         {
             try
@@ -52,6 +55,7 @@ namespace API.Controllers
 
         // POST: api/Categories
         [HttpPost]
+        [LoggedIn("Admin")]
         public IActionResult Post([FromBody] CategoryDto categoryDto)
         {
             try
@@ -71,6 +75,7 @@ namespace API.Controllers
 
         // PUT: api/Categories/5
         [HttpPut("{id}")]
+        [LoggedIn("Admin")]
         public IActionResult Put(int id, [FromBody] CategoryDto categoryDto)
         {
             try
@@ -92,8 +97,9 @@ namespace API.Controllers
             }
         }
 
-        // DELETE: api/ApiWithActions/5
+        // DELETE: api/Categories/5
         [HttpDelete("{id}")]
+        [LoggedIn("Admin")]
         public IActionResult Delete(int id)
         {
             try

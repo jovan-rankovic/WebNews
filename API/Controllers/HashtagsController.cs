@@ -1,4 +1,5 @@
-﻿using Application.Commands.Hashtag;
+﻿using API.Helpers;
+using Application.Commands.Hashtag;
 using Application.DataTransfer;
 using Application.Exceptions;
 using Application.Searches;
@@ -29,11 +30,13 @@ namespace API.Controllers
 
         // GET: api/Hashtags
         [HttpGet]
+        [LoggedIn]
         public IActionResult Get([FromQuery] HashtagSearch hashtagSearch)
             => Ok(_searchHashtagsCommand.Execute(hashtagSearch));
 
         // GET: api/Hashtags/5
         [HttpGet("{id}")]
+        [LoggedIn]
         public IActionResult Get(int id)
         {
             try
@@ -52,6 +55,7 @@ namespace API.Controllers
 
         // POST: api/Hashtags
         [HttpPost]
+        [LoggedIn]
         public IActionResult Post([FromBody] HashtagDto hashtagDto)
         {
             try
@@ -71,6 +75,7 @@ namespace API.Controllers
 
         // PUT: api/Hashtags/5
         [HttpPut("{id}")]
+        [LoggedIn("Admin")]
         public IActionResult Put(int id, [FromBody] HashtagDto hashtagDto)
         {
             try
@@ -94,6 +99,7 @@ namespace API.Controllers
 
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
+        [LoggedIn("Admin")]
         public IActionResult Delete(int id)
         {
             try

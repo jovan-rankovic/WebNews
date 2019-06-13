@@ -1,4 +1,5 @@
-﻿using Application.Commands.User;
+﻿using API.Helpers;
+using Application.Commands.User;
 using Application.DataTransfer;
 using Application.Exceptions;
 using Application.Searches;
@@ -29,11 +30,13 @@ namespace API.Controllers
 
         // GET: api/Users
         [HttpGet]
+        [LoggedIn("Admin")]
         public IActionResult Get([FromQuery] UserSearch userSearch)
             => Ok(_searchUsersCommand.Execute(userSearch));
 
         // GET: api/Users/5
         [HttpGet("{id}")]
+        [LoggedIn("Admin")]
         public IActionResult Get(int id)
         {
             try
@@ -52,6 +55,7 @@ namespace API.Controllers
 
         // POST: api/Users
         [HttpPost]
+        [LoggedIn("Admin")]
         public IActionResult Post([FromBody] UserDto userDto)
         {
             try
@@ -71,6 +75,7 @@ namespace API.Controllers
 
         // PUT: api/Users/5
         [HttpPut("{id}")]
+        [LoggedIn("Admin")]
         public IActionResult Put(int id, [FromBody] UserDto userDto)
         {
             try
@@ -94,6 +99,7 @@ namespace API.Controllers
 
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
+        [LoggedIn("Admin")]
         public IActionResult Delete(int id)
         {
             try

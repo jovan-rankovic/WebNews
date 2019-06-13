@@ -1,4 +1,6 @@
 ﻿using API.Email;
+using API.Helpers;
+using Application;
 using Application.Commands.Article;
 using Application.Commands.Category;
 using Application.Commands.Comment;
@@ -15,9 +17,12 @@ using EfCommands.User;
 using EfDataAccess;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json;
+using System;
 
 namespace API
 {
@@ -72,12 +77,40 @@ namespace API
             services.AddTransient<IEditHashtagCommand, EfEditHashtagCommand>();
             services.AddTransient<IDeleteHashtagCommand, EfDeleteHashtagCommand>();
 
+            services.AddTransient<ILoginCommand, EfLoginCommand>();
+
+            services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
+
             var section = Configuration.GetSection("Email");
-
-            var sender =
-                new SmtpEmailSender(section["host"], int.Parse(section["port"]), section["fromaddress"], section["password"]);
-
+            var sender = new SmtpEmailSender(section["host"], int.Parse(section["port"]), section["fromaddress"], section["password"]);
             services.AddSingleton<IEmailSender>(sender);
+
+            var key = Configuration.GetSection("Encryption")["Key"];
+            var enc = new Encryption(key);
+            services.AddSingleton(enc);
+
+            services.AddScoped(s =>
+            {
+                var http = s.GetRequiredService<IHttpContextAccessor>();
+                var value = http.HttpContext.Request.Headers["Auth"].ToString();
+                var encryption = s.GetRequiredService<Encryption>();
+
+                try
+                {
+                    var decodedString = encryption.DecryptString(value);
+                    decodedString = decodedString.Substring(0, decodedString.LastIndexOf("}") + 1);
+                    var user = JsonConvert.DeserializeObject<LoggedUser>(decodedString);
+                    user.IsLogged = true;
+                    return user;
+                }
+                catch (Exception)
+                {
+                    return new LoggedUser
+                    {
+                        IsLogged = false
+                    };
+                }
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

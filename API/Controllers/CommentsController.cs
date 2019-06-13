@@ -1,4 +1,5 @@
-﻿using Application.Commands.Comment;
+﻿using API.Helpers;
+using Application.Commands.Comment;
 using Application.DataTransfer;
 using Application.Exceptions;
 using Application.Searches;
@@ -29,11 +30,13 @@ namespace API.Controllers
 
         // GET: api/Comments
         [HttpGet]
+        [LoggedIn]
         public IActionResult Get([FromQuery] CommentSearch commentsSearch)
             => Ok(_searchCommentsCommand.Execute(commentsSearch));
 
         // GET: api/Comments/5
         [HttpGet("{id}")]
+        [LoggedIn]
         public IActionResult Get(int id)
         {
             try
@@ -52,6 +55,7 @@ namespace API.Controllers
 
         // POST: api/Comments
         [HttpPost]
+        [LoggedIn]
         public IActionResult Post([FromBody] CommentDto commentDto)
         {
             try
@@ -67,6 +71,7 @@ namespace API.Controllers
 
         // PUT: api/Comments/5
         [HttpPut("{id}")]
+        [LoggedIn("Admin")]
         public IActionResult Put(int id, [FromBody] CommentDto commentDto)
         {
             try
@@ -86,6 +91,7 @@ namespace API.Controllers
 
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
+        [LoggedIn("Admin")]
         public IActionResult Delete(int id)
         {
             try

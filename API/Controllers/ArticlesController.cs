@@ -1,4 +1,5 @@
-﻿using Application.Commands.Article;
+﻿using API.Helpers;
+using Application.Commands.Article;
 using Application.DataTransfer;
 using Application.Exceptions;
 using Application.Helpers;
@@ -32,11 +33,13 @@ namespace API.Controllers
 
         // GET: api/Articles
         [HttpGet]
+        [LoggedIn]
         public IActionResult Get([FromQuery] ArticleSearch articleSearch)
             => Ok(_searchArticlesCommand.Execute(articleSearch));
 
         // GET: api/Articles/5
         [HttpGet("{id}")]
+        [LoggedIn]
         public IActionResult Get(int id)
         {
             try
@@ -55,6 +58,7 @@ namespace API.Controllers
 
         // POST: api/Articles
         [HttpPost]
+        [LoggedIn("Admin")]
         public IActionResult Post([FromForm] ArticleImageUpload articleImageUpload)
         {
             if (articleImageUpload.ImageFile != null)
@@ -97,6 +101,7 @@ namespace API.Controllers
 
         // PUT: api/Articles/5
         [HttpPut("{id}")]
+        [LoggedIn("Admin")]
         public IActionResult Put(int id, [FromForm] ArticleImageUpload articleImageUpload)
         {
             if (articleImageUpload.ImageFile != null)
@@ -141,8 +146,9 @@ namespace API.Controllers
             }
         }
 
-        // DELETE: api/ApiWithActions/5
+        // DELETE: api/Articles/5
         [HttpDelete("{id}")]
+        [LoggedIn("Admin")]
         public IActionResult Delete(int id)
         {
             try

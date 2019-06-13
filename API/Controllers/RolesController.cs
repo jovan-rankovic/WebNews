@@ -1,4 +1,5 @@
-﻿using Application.Commands.Role;
+﻿using API.Helpers;
+using Application.Commands.Role;
 using Application.DataTransfer;
 using Application.Exceptions;
 using Application.Searches;
@@ -29,11 +30,13 @@ namespace API.Controllers
 
         // GET: api/Roles
         [HttpGet]
+        [LoggedIn("Admin")]
         public IActionResult Get([FromQuery] RoleSearch roleSearch)
             => Ok(_searchRolesCommand.Execute(roleSearch));
 
         // GET: api/Roles/5
         [HttpGet("{id}")]
+        [LoggedIn("Admin")]
         public IActionResult Get(int id)
         {
             try
@@ -52,6 +55,7 @@ namespace API.Controllers
 
         // POST: api/Roles
         [HttpPost]
+        [LoggedIn("Admin")]
         public IActionResult Post([FromBody] RoleDto roleDto)
         {
             try
@@ -71,6 +75,7 @@ namespace API.Controllers
 
         // PUT: api/Roles/5
         [HttpPut("{id}")]
+        [LoggedIn("Admin")]
         public IActionResult Put(int id, [FromBody] RoleDto roleDto)
         {
             try
@@ -94,6 +99,7 @@ namespace API.Controllers
 
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
+        [LoggedIn("Admin")]
         public IActionResult Delete(int id)
         {
             try
