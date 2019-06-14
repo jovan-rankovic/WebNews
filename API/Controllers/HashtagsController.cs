@@ -47,6 +47,7 @@ namespace API.Controllers
         ///     }
         ///     
         /// </remarks>
+        /// <response code="401">If the user is not logged in</response>
         [HttpGet]
         [LoggedIn]
         public ActionResult<IEnumerable<HashtagDto>> Get([FromQuery] HashtagSearch hashtagSearch)
@@ -70,6 +71,7 @@ namespace API.Controllers
         ///     }
         ///     
         /// </remarks>
+        /// <response code="401">If the user is not logged in</response>
         /// <response code="404">If the hashtag was not found</response>
         /// <response code="500">If another exception happens</response>
         [HttpGet("{id}")]
@@ -104,6 +106,7 @@ namespace API.Controllers
         ///     
         /// </remarks>
         /// <response code="400">If validation fails</response>
+        /// <response code="401">If the user is not logged in</response>
         /// <response code="409">If a hashtag with the same tag already exists</response>
         /// <response code="500">If another exception happens</response>
         [HttpPost]
@@ -139,6 +142,7 @@ namespace API.Controllers
         ///     
         /// </remarks>
         /// <response code="400">If validation fails</response>
+        /// <response code="401">If the user is not logged in as admin</response>
         /// <response code="404">If the hashtag was not found</response>
         /// <response code="409">If a hashtag with the same tag already exists</response>
         /// <response code="500">If another exception happens</response>
@@ -176,6 +180,7 @@ namespace API.Controllers
         ///     { }
         ///     
         /// </remarks>
+        /// <response code="401">If the user is not logged in as admin</response>
         /// <response code="404">If the hashtag was not found</response>
         /// <response code="500">If another exception happens</response>
         [HttpDelete("{id}")]

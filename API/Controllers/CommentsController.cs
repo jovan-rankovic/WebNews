@@ -30,7 +30,7 @@ namespace API.Controllers
         }
 
         /// <summary>
-        /// Returns all comments that match provided query (Logged in)
+        /// Returns all comments that match provided query (Admin)
         /// </summary>
         /// <remarks>
         /// 
@@ -49,13 +49,14 @@ namespace API.Controllers
         ///     }
         ///     
         /// </remarks>
+        /// <response code="401">If the user is not logged in as admin</response>
         [HttpGet]
-        [LoggedIn]
+        [LoggedIn("Admin")]
         public ActionResult<IEnumerable<CommentDto>> Get([FromQuery] CommentSearch commentsSearch)
             => Ok(_searchCommentsCommand.Execute(commentsSearch));
 
         /// <summary>
-        /// Returns a specific comment (Logged in)
+        /// Returns a specific comment (Admin)
         /// </summary>
         /// <remarks>
         /// 
@@ -74,10 +75,12 @@ namespace API.Controllers
         ///     }
         ///     
         /// </remarks>
+        /// <response code="400">If validation fails</response>
+        /// <response code="401">If the user is not logged in as admin</response>
         /// <response code="404">If the comment was not found</response>
         /// <response code="500">If another exception happens</response>
         [HttpGet("{id}")]
-        [LoggedIn]
+        [LoggedIn("Admin")]
         public ActionResult<CommentDto> Get(int id)
         {
             try
@@ -95,7 +98,7 @@ namespace API.Controllers
         }
 
         /// <summary>
-        /// Creates a comment (Logged in)
+        /// Creates a comment (Admin)
         /// </summary>
         /// <remarks>
         /// 
@@ -110,9 +113,10 @@ namespace API.Controllers
         ///     
         /// </remarks>
         /// <response code="400">If validation fails</response>
+        /// <response code="401">If the user is not logged in as admin</response>
         /// <response code="500">If another exception happens</response>
         [HttpPost]
-        [LoggedIn]
+        [LoggedIn("Admin")]
         public ActionResult Post([FromBody] CommentDto commentDto)
         {
             try
@@ -142,6 +146,7 @@ namespace API.Controllers
         ///     
         /// </remarks>
         /// <response code="400">If validation fails</response>
+        /// <response code="401">If the user is not logged in as admin</response>
         /// <response code="404">If the comment was not found</response>
         /// <response code="500">If another exception happens</response>
         [HttpPut("{id}")]
@@ -174,6 +179,8 @@ namespace API.Controllers
         ///     { }
         ///     
         /// </remarks>
+        /// <response code="400">If validation fails</response>
+        /// <response code="401">If the user is not logged in as admin</response>
         /// <response code="404">If the comment was not found</response>
         /// <response code="500">If another exception happens</response>
         [HttpDelete("{id}")]

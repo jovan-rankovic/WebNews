@@ -30,7 +30,7 @@ namespace API.Controllers
         }
 
         /// <summary>
-        /// Returns all users that match provided query (Admin)
+        /// Returns all users that match provided query, and paginates them (Admin)
         /// </summary>
         /// <remarks>
         /// 
@@ -38,23 +38,29 @@ namespace API.Controllers
         /// 
         ///     GET api/Users
         ///     {
-        ///        "firstName": "Test",
-        ///        "lastName": "Dummy",
-        ///        "email": "test@gmail.com",
-        ///        "roleId": 1,
-        ///        "role": "Role",
-        ///        "articles": [
-        ///             "Test",
-        ///             "Article"
-        ///         ],
-        ///        "comments": [
-        ///             "Hello.",
-        ///             "World."
-        ///         ],
-        ///        "id": 1
+        ///        "totalCount": 2,
+        ///        "pagesCount": 1,
+        ///        "currentPage": 1,
+        ///        "data": [
+        ///             "firstName": "Test",
+        ///             "lastName": "Dummy",
+        ///             "email": "test@gmail.com",
+        ///             "roleId": 1,
+        ///             "role": "Role",
+        ///             "articles": [
+        ///                 "Test",
+        ///                 "Article"
+        ///             ],
+        ///             "comments": [
+        ///                 "Hello.",
+        ///                 "World."
+        ///             ],
+        ///             "id": 1
+        ///         ]
         ///     }
         ///     
         /// </remarks>
+        /// <response code="401">If the user is not logged in as admin</response>
         [HttpGet]
         [LoggedIn("Admin")]
         public ActionResult<IEnumerable<UserDto>> Get([FromQuery] UserSearch userSearch)
@@ -86,6 +92,7 @@ namespace API.Controllers
         ///     }
         ///     
         /// </remarks>
+        /// <response code="401">If the user is not logged in as admin</response>
         /// <response code="404">If the user was not found</response>
         /// <response code="500">If another exception happens</response>
         [HttpGet("{id}")]
@@ -124,6 +131,7 @@ namespace API.Controllers
         ///     
         /// </remarks>
         /// <response code="400">If validation fails</response>
+        /// <response code="401">If the user is not logged in as admin</response>
         /// <response code="409">If a user with the same email already exists</response>
         /// <response code="500">If another exception happens</response>
         [HttpPost]
@@ -163,6 +171,7 @@ namespace API.Controllers
         ///     
         /// </remarks>
         /// <response code="400">If validation fails</response>
+        /// <response code="401">If the user is not logged in as admin</response>
         /// <response code="404">If the user was not found</response>
         /// <response code="409">If a user with the same email already exists</response>
         /// <response code="500">If another exception happens</response>
@@ -200,6 +209,7 @@ namespace API.Controllers
         ///     { }
         ///     
         /// </remarks>
+        /// <response code="401">If the user is not logged in as admin</response>
         /// <response code="404">If the user was not found</response>
         /// <response code="500">If another exception happens</response>
         [HttpDelete("{id}")]
