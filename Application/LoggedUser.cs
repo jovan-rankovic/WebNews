@@ -8,5 +8,6 @@
         public string Email { get; set; }
         public string Role { get; set; }
         public bool IsLogged { get; set; }
+        public System.DateTime? TokenDuration { get; set; }
     }
 }

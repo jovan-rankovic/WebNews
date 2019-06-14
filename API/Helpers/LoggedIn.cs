@@ -21,7 +21,7 @@ namespace API.Helpers
         {
             var user = context.HttpContext.RequestServices.GetService<LoggedUser>();
 
-            if (!user.IsLogged)
+            if (!user.IsLogged || user.TokenDuration == null || user.TokenDuration < DateTime.Now)
                 context.Result = new UnauthorizedResult();
             else
             {

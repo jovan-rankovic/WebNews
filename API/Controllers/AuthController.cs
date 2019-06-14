@@ -50,7 +50,8 @@ namespace API.Controllers
                     FirstName = userDto.FirstName,
                     LastName = userDto.LastName,
                     Email = userDto.Email,
-                    Role = userDto.Role
+                    Role = userDto.Role,
+                    TokenDuration = DateTime.Now.AddMinutes(15)
                 };
 
                 var stringObject = JsonConvert.SerializeObject(user);
