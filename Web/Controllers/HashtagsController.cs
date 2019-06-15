@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Application.Commands.Hashtag;
+﻿using Application.Commands.Hashtag;
 using Application.DataTransfer;
 using Application.Exceptions;
 using Application.Searches;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
 
 namespace Web.Controllers
 {
