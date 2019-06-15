@@ -50,7 +50,7 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model) {
+        @foreach (var item in Model.OrderBy(a => a.Id)) {
             <tr>
                 <td>
                     @Html.DisplayFor(modelItem => item.Id)

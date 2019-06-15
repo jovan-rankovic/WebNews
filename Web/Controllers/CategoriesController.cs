@@ -29,7 +29,7 @@ namespace Web.Controllers
         {
             categorySearch.PageNumber = 0;
             var categories = _searchCategoriesCommand.Execute(categorySearch);
-            return View(categories);
+            return View(categories.Data);
         }
 
         // GET: Categories/Details/5

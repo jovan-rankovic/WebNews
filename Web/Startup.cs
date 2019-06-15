@@ -2,10 +2,16 @@
 using Application.Commands.Category;
 using Application.Commands.Comment;
 using Application.Commands.Hashtag;
+using Application.Commands.Role;
+using Application.Commands.User;
+using Application.Email;
+using Application.Interfaces;
 using EfCommands.Article;
 using EfCommands.Category;
 using EfCommands.Comment;
 using EfCommands.Hashtag;
+using EfCommands.Role;
+using EfCommands.User;
 using EfDataAccess;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -53,6 +59,22 @@ namespace Web
             services.AddTransient<ICreateHashtagCommand, EfCreateHashtagCommand>();
             services.AddTransient<IEditHashtagCommand, EfEditHashtagCommand>();
             services.AddTransient<IDeleteHashtagCommand, EfDeleteHashtagCommand>();
+
+            services.AddTransient<IGetRolesCommand, EfGetRolesCommand>();
+            services.AddTransient<IGetRoleCommand, EfGetRoleCommand>();
+            services.AddTransient<ICreateRoleCommand, EfCreateRoleCommand>();
+            services.AddTransient<IEditRoleCommand, EfEditRoleCommand>();
+            services.AddTransient<IDeleteRoleCommand, EfDeleteRoleCommand>();
+
+            services.AddTransient<IGetUsersCommand, EfGetUsersCommand>();
+            services.AddTransient<IGetUserCommand, EfGetUserCommand>();
+            services.AddTransient<ICreateUserCommand, EfCreateUserCommand>();
+            services.AddTransient<IEditUserCommand, EfEditUserCommand>();
+            services.AddTransient<IDeleteUserCommand, EfDeleteUserCommand>();
+
+            var section = Configuration.GetSection("Email");
+            var sender = new SmtpEmailSender(section["host"], int.Parse(section["port"]), section["fromaddress"], section["password"]);
+            services.AddSingleton<IEmailSender>(sender);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

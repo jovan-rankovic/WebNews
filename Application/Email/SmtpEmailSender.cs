@@ -2,7 +2,7 @@
 using System.Net;
 using System.Net.Mail;
 
-namespace API.Email
+namespace Application.Email
 {
     public class SmtpEmailSender : IEmailSender
     {

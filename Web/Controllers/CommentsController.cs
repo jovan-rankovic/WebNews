@@ -33,7 +33,7 @@ namespace Web.Controllers
         {
             commentSearch.PageNumber = 0;
             var comments = _searchCommentsCommand.Execute(commentSearch);
-            return View(comments);
+            return View(comments.Data);
         }
 
         // GET: Comments/Details/5

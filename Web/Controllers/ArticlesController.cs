@@ -33,7 +33,7 @@ namespace Web.Controllers
         {
             articleSearch.PageNumber = 0;
             var articles = _searchArticlesCommand.Execute(articleSearch);
-            return View(articles);
+            return View(articles.Data);
         }
             
         // GET: Articles/Details/5

@@ -1,5 +1,4 @@
-﻿using API.Email;
-using API.Helpers;
+﻿using API.Helpers;
 using Application;
 using Application.Commands.Article;
 using Application.Commands.Category;
@@ -7,6 +6,7 @@ using Application.Commands.Comment;
 using Application.Commands.Hashtag;
 using Application.Commands.Role;
 using Application.Commands.User;
+using Application.Email;
 using Application.Interfaces;
 using EfCommands.Article;
 using EfCommands.Category;
