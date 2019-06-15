@@ -12,8 +12,11 @@ namespace EfCommands.Role
         {
             var role = Context.Roles.Find(request);
 
-            if (role == null || role.Id == 1)
+            if (role == null)
                 throw new EntityNotFoundException("Role");
+
+            if (role.Name.ToLower().Contains("admin"))
+                throw new EntityDeleteForbiddenException("role");
 
             Context.Roles.Remove(role);
 

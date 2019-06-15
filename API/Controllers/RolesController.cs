@@ -188,7 +188,8 @@ namespace API.Controllers
         /// </remarks>
         /// <response code="400">If validation fails</response>
         /// <response code="401">If the user is not logged in as admin</response>
-        /// <response code="404">If the role was not found or if it's the admin role</response>
+        /// <response code="403">If the user tries to delete admin role</response>
+        /// <response code="404">If the role was not found</response>
         /// <response code="500">If another exception happens</response>
         [HttpDelete("{id}")]
         [LoggedIn("Admin")]
@@ -202,6 +203,10 @@ namespace API.Controllers
             catch (EntityNotFoundException e)
             {
                 return NotFound(e.Message);
+            }
+            catch (EntityDeleteForbiddenException e)
+            {
+                return StatusCode(StatusCodes.Status403Forbidden, e.Message);
             }
             catch (Exception e)
             {
