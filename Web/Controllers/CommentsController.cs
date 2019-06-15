@@ -30,7 +30,10 @@ namespace Web.Controllers
 
         // GET: Comments
         public ActionResult Index([FromQuery] CommentSearch commentSearch)
-            => View(_searchCommentsCommand.Execute(commentSearch));
+        {
+            commentSearch.PageNumber = 0;
+            return View(_searchCommentsCommand.Execute(commentSearch));
+        }
 
         // GET: Comments/Details/5
         public ActionResult Details(int id)

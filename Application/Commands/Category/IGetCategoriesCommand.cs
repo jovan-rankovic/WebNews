@@ -1,9 +1,9 @@
 ﻿using Application.DataTransfer;
 using Application.Interfaces;
+using Application.Responses;
 using Application.Searches;
-using System.Collections.Generic;
 
 namespace Application.Commands.Category
 {
-    public interface IGetCategoriesCommand : ICommand<CategorySearch, IEnumerable<CategoryDto>> { }
+    public interface IGetCategoriesCommand : ICommand<CategorySearch, PagedResponse<CategoryDto>> { }
 }

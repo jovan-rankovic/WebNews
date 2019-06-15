@@ -27,16 +27,17 @@ namespace EfCommands.User
             if (request.IsAdmin == true)
                 query = query.Where(u => u.Role.Name.ToLower().Contains("admin"));
 
-            query = query.Skip((request.PageNumber - 1) * request.PerPage).Take(request.PerPage);
+            if (request.PageNumber != 0)
+                query = query.Skip((request.PageNumber - 1) * request.PerPage).Take(request.PerPage);
 
             var totalCount = query.Count();
             var pagesCount = (int)System.Math.Ceiling((double)totalCount / request.PerPage);
 
             return new PagedResponse<UserDto>
             {
-                CurrentPage = request.PageNumber,
                 TotalCount = totalCount,
                 PagesCount = pagesCount,
+                CurrentPage = request.PageNumber,
                 Data = query.Select(u => new UserDto
                 {
                     Id = u.Id,

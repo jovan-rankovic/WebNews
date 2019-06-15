@@ -2,11 +2,11 @@
 using Application.Commands.Hashtag;
 using Application.DataTransfer;
 using Application.Exceptions;
+using Application.Responses;
 using Application.Searches;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
 
 namespace API.Controllers
 {
@@ -30,7 +30,7 @@ namespace API.Controllers
         }
 
         /// <summary>
-        /// Returns all hashtags that match provided query (Logged in)
+        /// Returns and paginates all hashtags that match the provided query (Logged in)
         /// </summary>
         /// <remarks>
         /// 
@@ -38,19 +38,24 @@ namespace API.Controllers
         /// 
         ///     GET api/Hashtags
         ///     {
-        ///        "tag": "#hashtag",
-        ///        "articlesWithHashtag": [
-        ///             "Test",
-        ///             "Article"
-        ///         ],
-        ///        "id": 1
+        ///        "totalCount": 2,
+        ///        "pagesCount": 1,
+        ///        "currentPage": 1,
+        ///        "data": [
+        ///             "tag": "#hashtag",
+        ///             "articlesWithHashtag": [
+        ///                 "Test",
+        ///                 "Article"
+        ///             ],
+        ///             "id": 1
+        ///         ]
         ///     }
         ///     
         /// </remarks>
         /// <response code="401">If the user is not logged in</response>
         [HttpGet]
         [LoggedIn]
-        public ActionResult<IEnumerable<HashtagDto>> Get([FromQuery] HashtagSearch hashtagSearch)
+        public ActionResult<PagedResponse<HashtagDto>> Get([FromQuery] HashtagSearch hashtagSearch)
             => Ok(_searchHashtagsCommand.Execute(hashtagSearch));
 
         /// <summary>

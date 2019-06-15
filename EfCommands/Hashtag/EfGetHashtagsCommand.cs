@@ -1,8 +1,8 @@
 ﻿using Application.Commands.Hashtag;
 using Application.DataTransfer;
+using Application.Responses;
 using Application.Searches;
 using EfDataAccess;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace EfCommands.Hashtag
@@ -11,19 +11,31 @@ namespace EfCommands.Hashtag
     {
         public EfGetHashtagsCommand(WebNewsContext context) : base(context) { }
 
-        public IEnumerable<HashtagDto> Execute(HashtagSearch request)
+        public PagedResponse<HashtagDto> Execute(HashtagSearch request)
         {
             var query = Context.Hashtags.AsQueryable();
 
             if (request.Tag != null)
                 query = query.Where(h => h.Tag.ToLower().Contains(request.Tag.ToLower()));
 
-            return query.Select(h => new HashtagDto
+            if (request.PageNumber != 0)
+                query = query.Skip((request.PageNumber - 1) * request.PerPage).Take(request.PerPage);
+
+            var totalCount = query.Count();
+            var pagesCount = (int)System.Math.Ceiling((double)totalCount / request.PerPage);
+
+            return new PagedResponse<HashtagDto>
             {
-                Id = h.Id,
-                Tag = h.Tag,
-                ArticlesWithHashtag = h.HashtagArticles.Select(ah => ah.Article.Title)
-            });
+                TotalCount = totalCount,
+                PagesCount = pagesCount,
+                CurrentPage = request.PageNumber,
+                Data = query.Select(h => new HashtagDto
+                {
+                    Id = h.Id,
+                    Tag = h.Tag,
+                    ArticlesWithHashtag = h.HashtagArticles.Select(ah => ah.Article.Title)
+                })
+            };
         }
     }
 }

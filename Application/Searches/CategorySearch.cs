@@ -1,6 +1,6 @@
 ﻿namespace Application.Searches
 {
-    public class CategorySearch
+    public class CategorySearch : Pagination
     {
         public string Name { get; set; }
     }

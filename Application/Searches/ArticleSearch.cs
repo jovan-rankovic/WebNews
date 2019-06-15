@@ -1,6 +1,6 @@
 ﻿namespace Application.Searches
 {
-    public class ArticleSearch
+    public class ArticleSearch : Pagination
     {
         public string Title { get; set; }
         public string Hashtag { get; set; }

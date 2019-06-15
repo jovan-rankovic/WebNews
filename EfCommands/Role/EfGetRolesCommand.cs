@@ -18,16 +18,17 @@ namespace EfCommands.Role
             if (request.Name != null)
                 query = query.Where(r => r.Name.ToLower().Contains(request.Name.ToLower()));
 
-            query = query.Skip((request.PageNumber - 1) * request.PerPage).Take(request.PerPage);
+            if (request.PageNumber != 0)
+                query = query.Skip((request.PageNumber - 1) * request.PerPage).Take(request.PerPage);
 
             var totalCount = query.Count();
             var pagesCount = (int)System.Math.Ceiling((double)totalCount / request.PerPage);
 
             return new PagedResponse<RoleDto>
             {
-                CurrentPage = request.PageNumber,
                 TotalCount = totalCount,
                 PagesCount = pagesCount,
+                CurrentPage = request.PageNumber,
                 Data = query.Select(r => new RoleDto
                 {
                     Id = r.Id,

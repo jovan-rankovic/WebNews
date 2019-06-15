@@ -2,11 +2,11 @@
 using Application.Commands.Category;
 using Application.DataTransfer;
 using Application.Exceptions;
+using Application.Responses;
 using Application.Searches;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
 
 namespace API.Controllers
 {
@@ -30,7 +30,7 @@ namespace API.Controllers
         }
 
         /// <summary>
-        /// Returns all categories that match provided query (Logged in)
+        /// Returns and paginates all categories that match the provided query (Logged in)
         /// </summary>
         /// <remarks>
         /// 
@@ -38,19 +38,24 @@ namespace API.Controllers
         /// 
         ///     GET api/Categories
         ///     {
-        ///        "name": "Category",
-        ///        "articlesInCategory": [
-        ///             "Test",
-        ///             "Article"
-        ///         ],
-        ///        "id": 1
+        ///        "totalCount": 2,
+        ///        "pagesCount": 1,
+        ///        "currentPage": 1,
+        ///        "data": [
+        ///             "name": "Category",
+        ///             "articlesInCategory": [
+        ///                 "Test",
+        ///                 "Article"
+        ///             ],
+        ///             "id": 1
+        ///         ]
         ///     }
         ///     
         /// </remarks>
         /// <response code="401">If the user is not logged in</response>
         [HttpGet]
         [LoggedIn]
-        public ActionResult<IEnumerable<CategoryDto>> Get([FromQuery] CategorySearch categorySearch)
+        public ActionResult<PagedResponse<CategoryDto>> Get([FromQuery] CategorySearch categorySearch)
             => Ok(_searchCategoriesCommand.Execute(categorySearch));
 
         /// <summary>

@@ -1,9 +1,9 @@
 ﻿using Application.DataTransfer;
 using Application.Interfaces;
+using Application.Responses;
 using Application.Searches;
-using System.Collections.Generic;
 
 namespace Application.Commands.Hashtag
 {
-    public interface IGetHashtagsCommand : ICommand<HashtagSearch, IEnumerable<HashtagDto>> { }
+    public interface IGetHashtagsCommand : ICommand<HashtagSearch, PagedResponse<HashtagDto>> { }
 }

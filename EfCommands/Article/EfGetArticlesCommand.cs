@@ -1,8 +1,9 @@
 ﻿using Application.Commands.Article;
 using Application.DataTransfer;
+using Application.Interfaces;
+using Application.Responses;
 using Application.Searches;
 using EfDataAccess;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace EfCommands.Article
@@ -11,7 +12,7 @@ namespace EfCommands.Article
     {
         public EfGetArticlesCommand(WebNewsContext context) : base(context) { }
 
-        public IEnumerable<ArticleDto> Execute(ArticleSearch request)
+        public PagedResponse<ArticleDto> Execute(ArticleSearch request)
         {
             var query = Context.Articles.AsQueryable();
 
@@ -24,22 +25,34 @@ namespace EfCommands.Article
             if (request.CategoryId.HasValue)
                 query = query.Where(a => a.ArticleCategories.Any(ac => ac.CategoryId == request.CategoryId));
 
-            return query.Select(a => new ArticleDto
+            if (request.PageNumber != 0)
+                query = query.Skip((request.PageNumber - 1) * request.PerPage).Take(request.PerPage);
+
+            var totalCount = query.Count();
+            var pagesCount = (int)System.Math.Ceiling((double)totalCount / request.PerPage);
+
+            return new PagedResponse<ArticleDto>
             {
-                Id = a.Id,
-                Title = a.Title,
-                Content = a.Content,
-                Image = a.ImagePath,
-                CreatedAt = a.CreatedAt,
-                UpdatedAt = a.UpdatedAt,
-                AuthorId = a.UserId,
-                CategoryIds = a.ArticleCategories.Select(ac => ac.CategoryId),
-                HashtagIds = a.ArticleHashtags.Select(ah => ah.HashtagId),
-                Author = a.User.FirstName + " " + a.User.LastName,
-                Comments = a.Comments.Select(c => c.Text),
-                CategoriesForArticle = a.ArticleCategories.Select(ac => ac.Category.Name),
-                HashtagsForArticle = a.ArticleHashtags.Select(ah => ah.Hashtag.Tag)
-            });
+                TotalCount = totalCount,
+                PagesCount = pagesCount,
+                CurrentPage = request.PageNumber,
+                Data = query.Select(a => new ArticleDto
+                {
+                    Id = a.Id,
+                    Title = a.Title,
+                    Content = a.Content,
+                    Image = a.ImagePath,
+                    CreatedAt = a.CreatedAt,
+                    UpdatedAt = a.UpdatedAt,
+                    AuthorId = a.UserId,
+                    CategoryIds = a.ArticleCategories.Select(ac => ac.CategoryId),
+                    HashtagIds = a.ArticleHashtags.Select(ah => ah.HashtagId),
+                    Author = a.User.FirstName + " " + a.User.LastName,
+                    Comments = a.Comments.Select(c => c.Text),
+                    CategoriesForArticle = a.ArticleCategories.Select(ac => ac.Category.Name),
+                    HashtagsForArticle = a.ArticleHashtags.Select(ah => ah.Hashtag.Tag)
+                })
+            };
         }
     }
 }

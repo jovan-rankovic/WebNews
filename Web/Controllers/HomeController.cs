@@ -20,10 +20,16 @@ namespace Web.Controllers
 
         public IActionResult Index([FromQuery] ArticleSearch articleSearch, CategorySearch categorySearch)
         {
+            articleSearch.PageNumber = 0;
+            var articles = _searchArticlesCommand.Execute(articleSearch);
+
+            categorySearch.PageNumber = 0;
+            var categories = _searchCategoriesCommand.Execute(categorySearch);
+
             var viewModel = new HomeViewModel
             {
-                Articles = _searchArticlesCommand.Execute(articleSearch),
-                Categories = _searchCategoriesCommand.Execute(categorySearch)
+                Articles = articles.Data,
+                Categories = categories
             };
 
             return View(viewModel);

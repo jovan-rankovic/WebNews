@@ -3,11 +3,11 @@ using Application.Commands.Article;
 using Application.DataTransfer;
 using Application.Exceptions;
 using Application.Helpers;
+using Application.Responses;
 using Application.Searches;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
@@ -33,7 +33,7 @@ namespace API.Controllers
         }
 
         /// <summary>
-        /// Returns all articles that match provided query (Logged in)
+        /// Returns and paginates all articles that match the provided query (Logged in)
         /// </summary>
         /// <remarks>
         /// 
@@ -41,41 +41,46 @@ namespace API.Controllers
         /// 
         ///     GET api/Articles
         ///     {
-        ///        "title": "Test title",
-        ///        "content": "Test content.",
-        ///        "image": "img/article/picture.jpg",
-        ///        "createdAt": "2019-06-13T20:00:00.00",
-        ///        "updatedAt": "2019-06-14T08:30:45.59",
-        ///        "authorId": 1,
-        ///        "categoryIds": [
-        ///             1,
-        ///             2
-        ///         ],
-        ///        "hashtagIds": [
-        ///             3,
-        ///             4
-        ///         ],
-        ///        "author": "Jovan Rankovic",
-        ///        "comments": [
-        ///             "Hello.",
-        ///             "World."
-        ///         ],
-        ///        "categoriesForArticle": [
-        ///             "Test",
-        ///             "Category"
-        ///         ],
-        ///        "hashtagsForArticle": [
-        ///             "#test",
-        ///             "#hasthag"
-        ///         ],
-        ///        "id": 1
+        ///        "totalCount": 2,
+        ///        "pagesCount": 1,
+        ///        "currentPage": 1,
+        ///        "data": [
+        ///             "title": "Test title",
+        ///             "content": "Test content.",
+        ///             "image": "img/article/picture.jpg",
+        ///             "createdAt": "2019-06-13T20:00:00.00",
+        ///             "updatedAt": "2019-06-14T08:30:45.59",
+        ///             "authorId": 1,
+        ///             "categoryIds": [
+        ///                 1,
+        ///                 2
+        ///             ],
+        ///             "hashtagIds": [
+        ///                 3,
+        ///                 4
+        ///             ],
+        ///             "author": "Jovan Rankovic",
+        ///             "comments": [
+        ///                 "Hello.",
+        ///                 "World."
+        ///             ],
+        ///             "categoriesForArticle": [
+        ///                 "Test",
+        ///                 "Category"
+        ///             ],
+        ///             "hashtagsForArticle": [
+        ///                 "#test",
+        ///                 "#hasthag"
+        ///             ],
+        ///             "id": 1
+        ///         ]
         ///     }
         ///     
         /// </remarks>
         /// <response code="401">If the user is not logged in</response>
         [HttpGet]
         [LoggedIn]
-        public ActionResult<IEnumerable<ArticleDto>> Get([FromQuery] ArticleSearch articleSearch)
+        public ActionResult<PagedResponse<ArticleDto>> Get([FromQuery] ArticleSearch articleSearch)
             => Ok(_searchArticlesCommand.Execute(articleSearch));
 
         /// <summary>

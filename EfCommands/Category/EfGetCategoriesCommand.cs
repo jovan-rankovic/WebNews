@@ -1,8 +1,8 @@
 ﻿using Application.Commands.Category;
 using Application.DataTransfer;
+using Application.Responses;
 using Application.Searches;
 using EfDataAccess;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace EfCommands.Category
@@ -11,19 +11,31 @@ namespace EfCommands.Category
     {
         public EfGetCategoriesCommand(WebNewsContext context) : base(context) { }
 
-        public IEnumerable<CategoryDto> Execute(CategorySearch request)
+        public PagedResponse<CategoryDto> Execute(CategorySearch request)
         {
             var query = Context.Categories.AsQueryable();
 
             if (request.Name != null)
                 query = query.Where(c => c.Name.ToLower().Contains(request.Name.ToLower()));
 
-            return query.Select(c => new CategoryDto
+            if (request.PageNumber != 0)
+                query = query.Skip((request.PageNumber - 1) * request.PerPage).Take(request.PerPage);
+
+            var totalCount = query.Count();
+            var pagesCount = (int)System.Math.Ceiling((double)totalCount / request.PerPage);
+
+            return new PagedResponse<CategoryDto>
             {
-                Id = c.Id,
-                Name = c.Name,
-                ArticlesInCategory = c.CategoryArticles.Select(ac => ac.Article.Title)
-            });
+                TotalCount = totalCount,
+                PagesCount = pagesCount,
+                CurrentPage = request.PageNumber,
+                Data = query.Select(c => new CategoryDto
+                {
+                    Id = c.Id,
+                    Name = c.Name,
+                    ArticlesInCategory = c.CategoryArticles.Select(ac => ac.Article.Title)
+                })
+            };
         }
     }
 }

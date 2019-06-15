@@ -2,11 +2,11 @@
 using Application.Commands.Comment;
 using Application.DataTransfer;
 using Application.Exceptions;
+using Application.Responses;
 using Application.Searches;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
 
 namespace API.Controllers
 {
@@ -30,7 +30,7 @@ namespace API.Controllers
         }
 
         /// <summary>
-        /// Returns all comments that match provided query (Admin)
+        /// Returns and paginates all comments that match the provided query (Admin)
         /// </summary>
         /// <remarks>
         /// 
@@ -38,21 +38,26 @@ namespace API.Controllers
         /// 
         ///     GET api/Comments
         ///     {
-        ///        "text": "Hello World.",
-        ///        "createdAt": "2019-06-13T20:00:00.00",
-        ///        "updatedAt": "2019-06-14T08:30:45.59",
-        ///        "articleId": 1,
-        ///        "userId": 1,
-        ///        "article": "Test article",
-        ///        "user": "Jovan Rankovic",
-        ///        "id": 1
+        ///        "totalCount": 2,
+        ///        "pagesCount": 1,
+        ///        "currentPage": 1,
+        ///        "data": [
+        ///             "text": "Hello World.",
+        ///             "createdAt": "2019-06-13T20:00:00.00",
+        ///             "updatedAt": "2019-06-14T08:30:45.59",
+        ///             "articleId": 1,
+        ///             "userId": 1,
+        ///             "article": "Test article",
+        ///             "user": "Jovan Rankovic",
+        ///             "id": 1
+        ///         ]
         ///     }
         ///     
         /// </remarks>
         /// <response code="401">If the user is not logged in as admin</response>
         [HttpGet]
         [LoggedIn("Admin")]
-        public ActionResult<IEnumerable<CommentDto>> Get([FromQuery] CommentSearch commentsSearch)
+        public ActionResult<PagedResponse<CommentDto>> Get([FromQuery] CommentSearch commentsSearch)
             => Ok(_searchCommentsCommand.Execute(commentsSearch));
 
         /// <summary>
