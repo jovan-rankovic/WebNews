@@ -29,7 +29,7 @@ namespace Web.Controllers
             var viewModel = new HomeViewModel
             {
                 Articles = articles.Data,
-                Categories = categories
+                Categories = categories.Data
             };
 
             return View(viewModel);
