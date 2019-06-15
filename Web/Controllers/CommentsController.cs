@@ -32,7 +32,8 @@ namespace Web.Controllers
         public ActionResult Index([FromQuery] CommentSearch commentSearch)
         {
             commentSearch.PageNumber = 0;
-            return View(_searchCommentsCommand.Execute(commentSearch));
+            var comments = _searchCommentsCommand.Execute(commentSearch);
+            return View(comments);
         }
 
         // GET: Comments/Details/5

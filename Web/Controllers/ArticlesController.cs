@@ -32,7 +32,8 @@ namespace Web.Controllers
         public ActionResult Index([FromQuery] ArticleSearch articleSearch)
         {
             articleSearch.PageNumber = 0;
-            return View(_searchArticlesCommand.Execute(articleSearch));
+            var articles = _searchArticlesCommand.Execute(articleSearch);
+            return View(articles);
         }
             
         // GET: Articles/Details/5

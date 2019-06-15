@@ -32,7 +32,8 @@ namespace Web.Controllers
         public ActionResult Index([FromQuery] HashtagSearch hashtagSearch)
         {
             hashtagSearch.PageNumber = 0;
-            return View(_searchHashtagsCommand.Execute(hashtagSearch));
+            var hashtags = _searchHashtagsCommand.Execute(hashtagSearch);
+            return View(hashtags.Data);
         }
 
         // GET: Hashtags/Details/5

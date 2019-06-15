@@ -28,7 +28,8 @@ namespace Web.Controllers
         public ActionResult Index([FromQuery] CategorySearch categorySearch)
         {
             categorySearch.PageNumber = 0;
-            return View(_searchCategoriesCommand.Execute(categorySearch));
+            var categories = _searchCategoriesCommand.Execute(categorySearch);
+            return View(categories);
         }
 
         // GET: Categories/Details/5
