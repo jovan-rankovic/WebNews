@@ -20,7 +20,6 @@ namespace Application.DataTransfer
         public string LastName { get; set; }
 
         [Required]
-        [MinLength(3, ErrorMessage = "Email must contain at least 3 characters.")]
         [MaxLength(60, ErrorMessage = "Email can have up to 60 characters.")]
         [EmailAddress(ErrorMessage = "Email is not valid.")]
         public string Email { get; set; }
