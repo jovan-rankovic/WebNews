@@ -5,6 +5,7 @@ using Application.Searches;
 using EfDataAccess;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Linq;
 
 namespace Web.Controllers
 {
@@ -32,7 +33,7 @@ namespace Web.Controllers
         {
             userSearch.PageNumber = 0;
             var users = _searchUsersCommand.Execute(userSearch);
-            return View(users);
+            return View(users.Data);
         }
 
         // GET: Users/Details/5
@@ -57,6 +58,13 @@ namespace Web.Controllers
         // GET: Users/Create
         public ActionResult Create()
         {
+            ViewBag.Roles = _context.Roles
+                .Select(r => new RoleDto
+                {
+                    Id = r.Id,
+                    Name = r.Name
+                });
+
             return View();
         }
 
@@ -92,6 +100,13 @@ namespace Web.Controllers
         // GET: Users/Edit/5
         public ActionResult Edit(int id)
         {
+            ViewBag.Roles = _context.Roles
+                .Select(r => new RoleDto
+                {
+                    Id = r.Id,
+                    Name = r.Name
+                });
+
             try
             {
                 return View(_getOneUserCommand.Execute(id));
