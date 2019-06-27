@@ -2,7 +2,6 @@
 using Application.DataTransfer;
 using Application.Exceptions;
 using EfDataAccess;
-using Microsoft.EntityFrameworkCore;
 using System.Linq;
 
 namespace EfCommands.Article
@@ -13,12 +12,7 @@ namespace EfCommands.Article
 
         public void Execute((int id, ArticleDto articleDto) request)
         {
-            var article = Context.Articles
-                .Include(a => a.ArticleCategories)
-                .ThenInclude(ac => ac.Category)
-                .Include(a => a.ArticleHashtags)
-                .ThenInclude(ah => ah.Hashtag)
-                .First(a => a.Id == request.id);
+            var article = Context.Articles.Find(request.id);
 
             if (article == null)
                 throw new EntityNotFoundException("Article");
