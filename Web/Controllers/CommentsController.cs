@@ -142,7 +142,7 @@ namespace Web.Controllers
             if (!ModelState.IsValid)
             {
                 TempData["error"] = "An error occured.";
-                return View();
+                return RedirectToAction(nameof(Index));
             }
 
             try

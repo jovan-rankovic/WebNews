@@ -113,7 +113,7 @@ namespace Web.Controllers
             if (!ModelState.IsValid)
             {
                 TempData["error"] = "An error occured.";
-                return View();
+                return RedirectToAction(nameof(Index));
             }
 
             try
@@ -125,6 +125,7 @@ namespace Web.Controllers
             catch (EntityNotFoundException e)
             {
                 TempData["error"] = e.Message;
+                return RedirectToAction(nameof(Index));
             }
             catch (EntityAlreadyExistsException e)
             {
